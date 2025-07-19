@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Tag } from 'lucide-react';
 import { Task } from '@/types/task';
 
 interface MostUsedTagsProps {
@@ -25,7 +26,10 @@ export const MostUsedTags: React.FC<MostUsedTagsProps> = ({ tasks }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Most Used Tags</CardTitle>
+        <CardTitle className="text-lg font-bold flex items-center gap-2 text-primary">
+          <Tag className="w-5 h-5" />
+          Most Used Tags
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">

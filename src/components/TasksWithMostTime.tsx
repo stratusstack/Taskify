@@ -62,7 +62,10 @@ export const TasksWithMostTime: React.FC<TasksWithMostTimeProps> = ({ tasks, onT
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Tasks with Most Time Spent</CardTitle>
+        <CardTitle className="text-lg font-bold flex items-center gap-2 text-primary">
+          <Clock className="w-5 h-5" />
+          Tasks with Most Time Spent
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">

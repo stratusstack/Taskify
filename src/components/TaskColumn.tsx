@@ -10,6 +10,7 @@ interface TaskColumnProps {
   onDeleteTask: (taskId: string) => void;
   colorClass: string;
   textColorClass: string;
+  statusIcon: string;
   onActivityClick?: (task: Task) => void;
 }
 
@@ -20,6 +21,7 @@ export const TaskColumn: React.FC<TaskColumnProps> = ({
   onDeleteTask,
   colorClass,
   textColorClass,
+  statusIcon,
   onActivityClick
 }) => {
   const handleDrop = (e: React.DragEvent) => {
@@ -33,24 +35,44 @@ export const TaskColumn: React.FC<TaskColumnProps> = ({
   };
 
   return (
-    <div className={`rounded-xl border-2 border-dashed p-6 ${colorClass}`}>
-      <div className="mb-6">
+    <div className={`group relative overflow-hidden rounded-2xl border shadow-lg hover:shadow-xl transition-all duration-300 ${colorClass}`}>
+      {/* Header Section */}
+      <div className="relative px-6 py-5 border-b border-white/20 bg-white/10 backdrop-blur-sm">
         <div className="flex items-center justify-between">
-          <h2 className={`text-xl font-bold ${textColorClass}`}>{status}</h2>
-          <div className={`text-sm font-medium px-3 py-1 rounded-full bg-white/80 ${textColorClass}`}>
-            {tasks.length} {tasks.length === 1 ? 'task' : 'tasks'}
+          <div className="flex items-center gap-3">
+            <div className="text-2xl">{statusIcon}</div>
+            <div>
+              <h2 className={`text-xl font-bold ${textColorClass}`}>{status}</h2>
+              <p className={`text-sm opacity-80 ${textColorClass}`}>
+                {tasks.length} {tasks.length === 1 ? 'task' : 'tasks'}
+              </p>
+            </div>
+          </div>
+          
+          <div className={`px-3 py-2 rounded-xl bg-white/30 backdrop-blur-sm font-semibold text-sm ${textColorClass} border border-white/20`}>
+            {tasks.length}
           </div>
         </div>
+        
+        {/* Decorative line */}
+        <div className="absolute bottom-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
       </div>
       
+      {/* Content Section */}
       <div 
-        className="min-h-[200px]"
+        className="p-6 min-h-[300px] relative"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >
         {tasks.length === 0 ? (
-          <div className="flex items-center justify-center h-32 text-gray-400 text-sm">
-            Drop tasks here or create a new one
+          <div className="flex flex-col items-center justify-center h-48 text-center">
+            <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mb-4">
+              <div className="text-2xl opacity-60">{statusIcon}</div>
+            </div>
+            <p className={`font-medium mb-2 ${textColorClass}`}>No tasks yet</p>
+            <p className="text-sm opacity-70 text-gray-600">
+              Drop tasks here or create a new one
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -65,6 +87,11 @@ export const TaskColumn: React.FC<TaskColumnProps> = ({
             ))}
           </div>
         )}
+        
+        {/* Background decoration */}
+        <div className="absolute top-4 right-4 text-6xl opacity-5 pointer-events-none">
+          {statusIcon}
+        </div>
       </div>
     </div>
   );

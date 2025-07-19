@@ -21,8 +21,11 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
 }) => {
   return (
     <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg">Quick Actions</CardTitle>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg font-bold flex items-center gap-2 text-primary">
+          <Plus className="w-5 h-5" />
+          Quick Actions
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
         <Button 

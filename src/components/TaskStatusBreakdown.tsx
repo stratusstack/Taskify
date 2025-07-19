@@ -26,7 +26,10 @@ export const TaskStatusBreakdown: React.FC<TaskStatusBreakdownProps> = ({ tasks 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Task Status Breakdown</CardTitle>
+        <CardTitle className="text-lg font-bold flex items-center gap-2 text-primary">
+          <Circle className="w-5 h-5" />
+          Task Status Breakdown
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">

@@ -103,7 +103,6 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
           {/* Quick Actions - only show when not collapsed and on project page */}
           {!collapsed && isOnProjectPage && onCreateTask && (
             <SidebarGroup>
-              <SidebarGroupLabel>Quick Actions</SidebarGroupLabel>
               <SidebarGroupContent>
                 <QuickActions
                   onCreateTask={onCreateTask}
@@ -119,7 +118,6 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
           {/* Time Tracking - only show when not collapsed and on project page */}
           {!collapsed && isOnProjectPage && onStartTimer && onStopTimer && (
             <SidebarGroup>
-              <SidebarGroupLabel>Time Tracking</SidebarGroupLabel>
               <SidebarGroupContent>
                 <TimeTrackingWidget
                   tasks={tasks}
