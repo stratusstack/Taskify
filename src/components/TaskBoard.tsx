@@ -7,11 +7,12 @@ interface TaskBoardProps {
   tasks: Task[];
   onUpdateTask: (taskId: string, updates: Partial<Task>) => void;
   onDeleteTask: (taskId: string) => void;
+  onActivityClick?: (task: Task) => void;
 }
 
 const statuses: TaskStatus[] = ['To Do', 'In Progress', 'On Hold', 'Done'];
 
-export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, onUpdateTask, onDeleteTask }) => {
+export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, onUpdateTask, onDeleteTask, onActivityClick }) => {
   const getTasksByStatus = (status: TaskStatus) => {
     return tasks.filter(task => task.status === status);
   };
@@ -47,6 +48,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, onUpdateTask, onDel
           onDeleteTask={onDeleteTask}
           colorClass={getStatusColor(status)}
           textColorClass={getStatusTextColor(status)}
+          onActivityClick={onActivityClick}
         />
       ))}
     </div>

@@ -1,5 +1,5 @@
+
 import React, { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -158,17 +158,15 @@ export const TaskDetailDialog: React.FC<TaskDetailDialogProps> = ({
               <Textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter task description (Markdown supported)..."
+                placeholder="Enter task description..."
                 rows={6}
                 className="mt-1"
               />
             ) : (
               <div className="mt-1 p-3 bg-gray-50 rounded-md min-h-[100px]">
                 {task.description ? (
-                  <div className="prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-                    <ReactMarkdown>
-                      {task.description}
-                    </ReactMarkdown>
+                  <div className="whitespace-pre-wrap text-sm text-gray-700">
+                    {task.description}
                   </div>
                 ) : (
                   <span className="text-gray-500">No description provided</span>

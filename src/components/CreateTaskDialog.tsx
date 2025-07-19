@@ -6,36 +6,74 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Task, TaskStatus } from '@/types/task';
-import { Plus, X } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Task, TaskStatus, TaskPriority } from '@/types/task';
+import { Plus, X, Calendar as CalendarIcon, Clock, Bell } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 interface CreateTaskDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onCreateTask: (task: Omit<Task, 'id' | 'timeEntries'>) => void;
+  projectId: string;
+  availableTasks?: Task[];
 }
 
 export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
   open,
   onOpenChange,
-  onCreateTask
+  onCreateTask,
+  projectId,
+  availableTasks = []
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState('');
   const [status, setStatus] = useState<TaskStatus>('To Do');
+  const [priority, setPriority] = useState<TaskPriority>('Medium');
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date | undefined>();
+  const [totalHours, setTotalHours] = useState<number | undefined>();
+  const [reminderDate, setReminderDate] = useState<Date | undefined>();
+  const [reminderTime, setReminderTime] = useState('09:00');
+  const [reminderMessage, setReminderMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
+
+    let reminders = [];
+    if (reminderDate) {
+      const [hours, minutes] = reminderTime.split(':').map(Number);
+      const reminderDateTime = new Date(reminderDate);
+      reminderDateTime.setHours(hours, minutes, 0, 0);
+
+      reminders = [{
+        id: Date.now().toString(),
+        reminderTime: reminderDateTime,
+        message: reminderMessage || `Reminder for task: ${title}`,
+        isActive: true
+      }];
+    }
 
     onCreateTask({
       title: title.trim(),
       description: description.trim() || undefined,
       tags,
       status,
-      createdAt: new Date()
+      priority,
+      startDate,
+      endDate,
+      totalHours,
+      reminders,
+      activities: [],
+      projectId,
+      createdAt: new Date(),
+      dependencies: []
     });
 
     // Reset form
@@ -44,6 +82,13 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
     setTags([]);
     setNewTag('');
     setStatus('To Do');
+    setPriority('Medium');
+    setStartDate(new Date());
+    setEndDate(undefined);
+    setTotalHours(undefined);
+    setReminderDate(undefined);
+    setReminderTime('09:00');
+    setReminderMessage('');
     onOpenChange(false);
   };
 
@@ -60,7 +105,7 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Create New Task</DialogTitle>
         </DialogHeader>
@@ -78,7 +123,7 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
           </div>
 
           <div>
-            <Label htmlFor="description">Description (Markdown supported)</Label>
+            <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
               value={description}
@@ -111,6 +156,141 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
                   />
                 </Badge>
               ))}
+            </div>
+          </div>
+
+          <div>
+            <Label>Priority</Label>
+            <Select value={priority} onValueChange={(value: TaskPriority) => setPriority(value)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Low">Low</SelectItem>
+                <SelectItem value="Medium">Medium</SelectItem>
+                <SelectItem value="High">High</SelectItem>
+                <SelectItem value="Critical">Critical</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label>Start Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !startDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {startDate ? format(startDate, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={(date) => date && setStartDate(date)}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div>
+              <Label>End Date (Optional)</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !endDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {endDate ? format(endDate, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={endDate}
+                    onSelect={setEndDate}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="totalHours">Estimated Total Hours (Optional)</Label>
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-gray-500" />
+              <Input
+                id="totalHours"
+                type="number"
+                min="0"
+                step="0.5"
+                value={totalHours || ''}
+                onChange={(e) => setTotalHours(e.target.value ? parseFloat(e.target.value) : undefined)}
+                placeholder="0"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label>Reminder (Optional)</Label>
+            <div className="space-y-2">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !reminderDate && "text-muted-foreground"
+                    )}
+                  >
+                    <Bell className="mr-2 h-4 w-4" />
+                    {reminderDate ? format(reminderDate, "PPP") : <span>Set reminder date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={reminderDate}
+                    onSelect={setReminderDate}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
+              
+              {reminderDate && (
+                <div className="space-y-2">
+                  <div>
+                    <Label htmlFor="reminderTime">Time</Label>
+                    <Input
+                      id="reminderTime"
+                      type="time"
+                      value={reminderTime}
+                      onChange={(e) => setReminderTime(e.target.value)}
+                    />
+                  </div>
+                  <Input
+                    value={reminderMessage}
+                    onChange={(e) => setReminderMessage(e.target.value)}
+                    placeholder="Reminder message (optional)"
+                  />
+                </div>
+              )}
             </div>
           </div>
 

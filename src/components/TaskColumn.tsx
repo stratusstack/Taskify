@@ -10,6 +10,7 @@ interface TaskColumnProps {
   onDeleteTask: (taskId: string) => void;
   colorClass: string;
   textColorClass: string;
+  onActivityClick?: (task: Task) => void;
 }
 
 export const TaskColumn: React.FC<TaskColumnProps> = ({
@@ -18,7 +19,8 @@ export const TaskColumn: React.FC<TaskColumnProps> = ({
   onUpdateTask,
   onDeleteTask,
   colorClass,
-  textColorClass
+  textColorClass,
+  onActivityClick
 }) => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -58,6 +60,7 @@ export const TaskColumn: React.FC<TaskColumnProps> = ({
                 task={task}
                 onUpdateTask={onUpdateTask}
                 onDeleteTask={onDeleteTask}
+                onActivityClick={onActivityClick}
               />
             ))}
           </div>
