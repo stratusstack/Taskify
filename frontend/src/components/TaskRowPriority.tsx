@@ -28,6 +28,21 @@ export const TaskRowPriority: React.FC<TaskRowPriorityProps> = ({
     }
   };
 
+  const getPriorityIcon = (priority: TaskPriority) => {
+    switch (priority) {
+      case 'Critical':
+        return <div className="w-2 h-2 bg-red-500 rounded-full"></div>;
+      case 'High':
+        return <div className="w-2 h-2 bg-orange-500 rounded-full"></div>;
+      case 'Medium':
+        return <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>;
+      case 'Low':
+        return <div className="w-2 h-2 bg-green-500 rounded-full"></div>;
+      default:
+        return <div className="w-2 h-2 bg-gray-500 rounded-full"></div>;
+    }
+  };
+
   return (
     <TableCell>
       <Select 
@@ -35,7 +50,10 @@ export const TaskRowPriority: React.FC<TaskRowPriorityProps> = ({
         onValueChange={onPriorityChange}
       >
         <SelectTrigger className={`w-20 h-6 text-xs ${getPrioritySelectColor(priority)}`}>
-          <SelectValue />
+          <div className="flex items-center gap-1">
+            {getPriorityIcon(priority)}
+            <span>{priority}</span>
+          </div>
         </SelectTrigger>
         <SelectContent className="bg-white border shadow-lg">
           <SelectItem value="Low" className="text-green-800 focus:bg-green-50">

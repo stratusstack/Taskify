@@ -2,17 +2,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { ArrowLeft, Plus, Upload } from 'lucide-react';
 import { Project } from '@/types/project';
 
 interface ProjectTasksHeaderProps {
   project: Project;
   onCreateTask: () => void;
+  onUploadImage: () => void;
 }
 
 export const ProjectTasksHeader: React.FC<ProjectTasksHeaderProps> = ({
   project,
-  onCreateTask
+  onCreateTask,
+  onUploadImage
 }) => {
   const navigate = useNavigate();
 
@@ -39,6 +41,11 @@ export const ProjectTasksHeader: React.FC<ProjectTasksHeaderProps> = ({
           </p>
         </div>
         <div className="flex gap-3">
+          <Button onClick={onUploadImage} variant="outline" className="gap-2 px-4 sm:px-6">
+            <Upload className="w-4 h-4" />
+            <span className="hidden sm:inline">Upload Image</span>
+            <span className="sm:hidden">Upload</span>
+          </Button>
           <Button onClick={onCreateTask} className="gap-2 px-4 sm:px-6">
             <Plus className="w-4 h-4" />
             <span className="hidden sm:inline">New Task</span>

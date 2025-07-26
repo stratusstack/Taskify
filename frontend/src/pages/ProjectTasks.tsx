@@ -9,6 +9,7 @@ import { ProjectConfigDialog, ProjectColumnConfig } from '@/components/ProjectCo
 import { TaskActivityDialog } from '@/components/TaskActivityDialog';
 import { TaskFilterDialog, TaskFilters } from '@/components/TaskFilterDialog';
 import { ProjectCalendarDialog } from '@/components/ProjectCalendarDialog';
+import { ImageUploadDialog } from '@/components/ImageUploadDialog';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useProjectTasks } from '@/hooks/useProjectTasks';
 import { useReminderNotifications } from '@/hooks/useReminderNotifications';
@@ -49,6 +50,7 @@ const ProjectTasks = () => {
   const [showActivityDialog, setShowActivityDialog] = useState(false);
   const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [showCalendarDialog, setShowCalendarDialog] = useState(false);
+  const [showImageUploadDialog, setShowImageUploadDialog] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [filters, setFilters] = useState<TaskFilters>({
     statuses: [],
@@ -99,6 +101,10 @@ const ProjectTasks = () => {
     setSelectedTask(task);
     setShowActivityDialog(true);
   }, []);
+
+  const handleCreateTasksFromImage = useCallback((taskData: Omit<Task, 'id' | 'timeEntries' | 'projectId'>[]) => {
+    taskData.forEach(data => createTask(data));
+  }, [createTask]);
 
   // Synchronize active timer state with task time entries
   // Finds tasks with ongoing time entries (no end time)
@@ -221,6 +227,7 @@ const ProjectTasks = () => {
                 <ProjectTasksHeader 
                   project={project}
                   onCreateTask={() => setShowCreateDialog(true)}
+                  onUploadImage={() => setShowImageUploadDialog(true)}
                 />
 
                 <ProjectTasksTabs
@@ -267,6 +274,12 @@ const ProjectTasks = () => {
                   tasks={filteredTasks}
                   open={showCalendarDialog}
                   onOpenChange={setShowCalendarDialog}
+                />
+
+                <ImageUploadDialog
+                  open={showImageUploadDialog}
+                  onClose={() => setShowImageUploadDialog(false)}
+                  onTasksCreated={handleCreateTasksFromImage}
                 />
               </div>
             </div>
