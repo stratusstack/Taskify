@@ -12,19 +12,19 @@ interface DashboardStatsProps {
 export const DashboardStats: React.FC<DashboardStatsProps> = ({ tasks }) => {
   const stats = {
     total: tasks.length,
-    todo: tasks.filter(t => t.status === 'To Do').length,
-    inProgress: tasks.filter(t => t.status === 'In Progress').length,
-    onHold: tasks.filter(t => t.status === 'On Hold').length,
-    done: tasks.filter(t => t.status === 'Done').length,
+    todo: tasks.filter(t => t.status === 'to_do').length,
+    inProgress: tasks.filter(t => t.status === 'in_progress').length,
+    onHold: tasks.filter(t => t.status === 'on_hold').length,
+    done: tasks.filter(t => t.status === 'done').length,
   };
 
   const completionRate = stats.total > 0 ? (stats.done / stats.total) * 100 : 0;
 
   const priorityStats = {
-    critical: tasks.filter(t => t.priority === 'Critical').length,
-    high: tasks.filter(t => t.priority === 'High').length,
-    medium: tasks.filter(t => t.priority === 'Medium').length,
-    low: tasks.filter(t => t.priority === 'Low').length,
+    critical: tasks.filter(t => t.priority === 'critical').length,
+    high: tasks.filter(t => t.priority === 'high').length,
+    medium: tasks.filter(t => t.priority === 'medium').length,
+    low: tasks.filter(t => t.priority === 'low').length,
   };
 
   return (

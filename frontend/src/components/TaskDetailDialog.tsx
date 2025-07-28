@@ -29,9 +29,9 @@ export const TaskDetailDialog: React.FC<TaskDetailDialogProps> = ({
   const [newTag, setNewTag] = useState('');
 
   const getTotalTimeSpent = () => {
-    return task.timeEntries.reduce((total, entry) => {
-      if (entry.endTime) {
-        const diff = new Date(entry.endTime).getTime() - new Date(entry.startTime).getTime();
+    return task.time_entries.reduce((total, entry) => {
+      if (entry.end_time) {
+        const diff = new Date(entry.end_time).getTime() - new Date(entry.start_time).getTime();
         return total + Math.floor(diff / 1000 / 60);
       }
       return total;
@@ -39,11 +39,11 @@ export const TaskDetailDialog: React.FC<TaskDetailDialogProps> = ({
   };
 
   const getCurrentTimeSpent = () => {
-    if (task.status === 'In Progress') {
-      const activeEntry = task.timeEntries.find(entry => !entry.endTime);
+    if (task.status === 'in_progress') {
+      const activeEntry = task.time_entries.find(entry => !entry.end_time);
       if (activeEntry) {
         const now = new Date();
-        const diff = now.getTime() - new Date(activeEntry.startTime).getTime();
+        const diff = now.getTime() - new Date(activeEntry.start_time).getTime();
         return Math.floor(diff / 1000 / 60);
       }
     }
@@ -189,26 +189,26 @@ export const TaskDetailDialog: React.FC<TaskDetailDialogProps> = ({
                 )}
               </div>
               
-              {task.timeEntries.length > 0 && (
+              {task.time_entries.length > 0 && (
                 <div className="text-sm text-gray-600">
                   <div className="font-medium mb-1">Time entries:</div>
-                  {task.timeEntries.map(entry => (
+                  {task.time_entries.map(entry => (
                     <div key={entry.id} className="ml-4 text-xs">
-                      {entry.date}: {new Date(entry.startTime).toLocaleTimeString()}
-                      {entry.endTime && (
+                      {entry.date}: {new Date(entry.start_time).toLocaleTimeString()}
+                      {entry.end_time && (
                         <>
                           {' - '}
-                          {new Date(entry.endTime).toLocaleTimeString()}
+                          {new Date(entry.end_time).toLocaleTimeString()}
                           {' ('}
                           {formatDuration(
                             Math.floor(
-                              (new Date(entry.endTime).getTime() - new Date(entry.startTime).getTime()) / 1000 / 60
+                              (new Date(entry.end_time).getTime() - new Date(entry.start_time).getTime()) / 1000 / 60
                             )
                           )}
                           {')'}
                         </>
                       )}
-                      {!entry.endTime && ' - Active'}
+                      {!entry.end_time && ' - Active'}
                     </div>
                   ))}
                 </div>

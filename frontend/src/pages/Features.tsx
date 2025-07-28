@@ -20,12 +20,20 @@ import {
   GitBranch,
   BarChart3,
   Focus,
-  Workflow
+  Workflow,
+  Camera,
+  Brain
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Features = () => {
   const coreFeatures = [
+    {
+      icon: <Brain className="h-8 w-8" />,
+      title: "AI Image Analysis",
+      description: "Transform handwritten notes and visual content into organized digital tasks",
+      highlight: "AI-Powered"
+    },
     {
       icon: <Network className="h-8 w-8" />,
       title: "Task Dependencies",
@@ -188,6 +196,55 @@ export const Features = () => {
 
       {/* Deep Dive: Dependencies Canvas */}
       <section className="py-20 px-4 bg-muted/30">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <Badge variant="outline" className="mb-4">
+                <Brain className="h-4 w-4 mr-2" />
+                AI Image Analysis
+              </Badge>
+              <h2 className="text-3xl font-bold text-foreground mb-6">
+                Turn Visual Content Into Tasks
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6">
+                Upload photos of handwritten notes, sketches, or any visual content containing task information. Our AI analyzes and extracts structured tasks automatically.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-primary" />
+                  <span>Drag and drop image upload interface</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-primary" />
+                  <span>Intelligent task priority detection</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-primary" />
+                  <span>Automatic tag suggestion based on content</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-primary" />
+                  <span>One-click task creation from analysis</span>
+                </li>
+              </ul>
+            </div>
+            <div className="relative">
+              <div className="bg-card rounded-lg p-8 border">
+                <div className="flex items-center justify-center h-64 text-muted-foreground">
+                  <div className="text-center">
+                    <Camera className="h-16 w-16 mx-auto mb-4 text-primary" />
+                    <p className="text-lg font-medium">AI Image Processing</p>
+                    <p className="text-sm">Transform visual content into tasks</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Deep Dive: Dependencies Canvas */}
+      <section className="py-20 px-4">    
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>

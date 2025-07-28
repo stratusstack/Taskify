@@ -31,29 +31,63 @@ export const useProjectTasks = () => {
         const parsedTasks = JSON.parse(savedTasks);
         const migratedTasks = parsedTasks.map((task: any) => ({
           ...task,
-          priority: task.priority || 'Medium',
-          startDate: task.startDate ? new Date(task.startDate) : new Date(task.createdAt || Date.now()),
-          endDate: task.endDate ? new Date(task.endDate) : undefined,
-          totalHours: task.totalHours || undefined,
-          reminders: task.reminders?.map((reminder: any) => ({
-            ...reminder,
-            reminderTime: new Date(reminder.reminderTime)
-          })) || [],
-          timeEntries: task.timeEntries?.map((entry: any) => ({
+          // Handle status enum migration
+          status: task.status === 'To Do' ? 'to_do' : 
+                  task.status === 'In Progress' ? 'in_progress' :
+                  task.status === 'On Hold' ? 'on_hold' :
+                  task.status === 'Done' ? 'done' :
+                  task.status || 'to_do',
+          // Handle priority enum migration
+          priority: task.priority === 'Low' ? 'low' :
+                   task.priority === 'Medium' ? 'medium' :
+                   task.priority === 'High' ? 'high' :
+                   task.priority === 'Critical' ? 'critical' :
+                   task.priority || 'medium',
+          // Handle field name migrations (support both old and new field names)
+          project_id: task.project_id || task.projectId || 'personal',
+          start_date: task.start_date ? new Date(task.start_date) : 
+                     task.startDate ? new Date(task.startDate) : 
+                     new Date(task.createdAt || Date.now()),
+          end_date: task.end_date ? new Date(task.end_date) : 
+                   task.endDate ? new Date(task.endDate) : undefined,
+          total_hours: task.total_hours || task.totalHours || undefined,
+          time_entries: (task.time_entries || task.timeEntries || []).map((entry: any) => ({
             ...entry,
-            startTime: new Date(entry.startTime),
-            endTime: entry.endTime ? new Date(entry.endTime) : undefined
-          })) || [],
-          activities: task.activities?.map((activity: any) => ({
+            start_time: entry.start_time ? new Date(entry.start_time) : new Date(entry.startTime),
+            end_time: entry.end_time ? (entry.end_time ? new Date(entry.end_time) : undefined) : 
+                     (entry.endTime ? new Date(entry.endTime) : undefined),
+            task_id: entry.task_id || entry.taskId || task.id,
+            user_id: entry.user_id || entry.userId,
+            created_at: entry.created_at ? new Date(entry.created_at) : new Date()
+          })),
+          reminders: (task.reminders || []).map((reminder: any) => ({
+            ...reminder,
+            reminder_time: reminder.reminder_time ? new Date(reminder.reminder_time) : new Date(reminder.reminderTime),
+            is_active: reminder.is_active !== undefined ? reminder.is_active : reminder.isActive !== undefined ? reminder.isActive : true,
+            task_id: reminder.task_id || reminder.taskId || task.id,
+            user_id: reminder.user_id || reminder.userId,
+            created_at: reminder.created_at ? new Date(reminder.created_at) : new Date()
+          })),
+          activities: (task.activities || []).map((activity: any) => ({
             ...activity,
-            timestamp: new Date(activity.timestamp)
-          })) || [],
-          projectId: task.projectId || 'personal',
-          dependencies: task.dependencies || []
+            activity_type: activity.activity_type || activity.type || 'note',
+            created_at: activity.created_at ? new Date(activity.created_at) : new Date(activity.timestamp || Date.now()),
+            task_id: activity.task_id || activity.taskId || task.id,
+            user_id: activity.user_id || activity.userId
+          })),
+          dependencies: task.dependencies || [],
+          created_at: task.created_at ? new Date(task.created_at) : new Date(task.createdAt || Date.now()),
+          updated_at: task.updated_at ? new Date(task.updated_at) : new Date(),
+          // Remove old field names to prevent confusion
+          projectId: undefined,
+          startDate: undefined,
+          endDate: undefined,
+          totalHours: undefined,
+          timeEntries: undefined
         }));
         
         // Filter tasks for this project
-        const projectTasks = migratedTasks.filter((task: Task) => task.projectId === projectId);
+        const projectTasks = migratedTasks.filter((task: Task) => task.project_id === projectId);
         setTasks(projectTasks);
       }
 
@@ -80,7 +114,7 @@ export const useProjectTasks = () => {
         if (savedTasks) {
           const allTasks = JSON.parse(savedTasks);
           // Update tasks for this project
-          const updatedTasks = allTasks.filter((task: Task) => task.projectId !== projectId).concat(tasks);
+          const updatedTasks = allTasks.filter((task: Task) => task.project_id !== projectId).concat(tasks);
           localStorage.setItem('tasks', JSON.stringify(updatedTasks));
         } else {
           localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -95,19 +129,20 @@ export const useProjectTasks = () => {
    * Creates a new task with generated ID and initial activity log
    * Automatically assigns the task to the current project
    */
-  const createTask = useCallback((taskData: Omit<Task, 'id' | 'timeEntries' | 'projectId'>) => {
+  const createTask = useCallback((taskData: Omit<Task, 'id' | 'time_entries' | 'project_id'>) => {
     const newTask: Task = {
       ...taskData,
       id: Date.now().toString(),
-      timeEntries: [],
-      projectId: projectId!,
-      startDate: taskData.startDate || new Date(),
+      time_entries: [],
+      project_id: projectId!,
+      start_date: taskData.start_date || new Date(),
       reminders: taskData.reminders || [],
       activities: [{
         id: Date.now().toString(),
-        type: 'status_change',
+        activity_type: 'status_change',
         description: `Task created with status "${taskData.status}"`,
-        timestamp: new Date()
+        created_at: new Date(),
+        task_id: Date.now().toString(),
       }]
     };
     setTasks(prev => [...prev, newTask]);
@@ -134,28 +169,31 @@ export const useProjectTasks = () => {
           // Add activity log for status change
           const statusActivity = {
             id: (Date.now() + Math.random()).toString(),
-            type: 'status_change' as const,
+            activity_type: 'status_change' as const,
             description: `Status changed from "${task.status}" to "${updates.status}"`,
-            timestamp: now
+            created_at: now,
+            task_id: task.id
           };
           updatedTask.activities = [...updatedTask.activities, statusActivity];
           
-          // End current time entry if moving from "In Progress"
-          if (task.status === 'In Progress') {
-            const activeEntry = task.timeEntries.find(entry => !entry.endTime);
+          // End current time entry if moving from "in_progress"
+          if (task.status === 'in_progress') {
+            const activeEntry = task.time_entries.find(entry => !entry.end_time);
             if (activeEntry) {
-              activeEntry.endTime = now;
+              activeEntry.end_time = now;
             }
           }
           
-          // Start new time entry if moving to "In Progress"
-          if (updates.status === 'In Progress') {
+          // Start new time entry if moving to "in_progress"
+          if (updates.status === 'in_progress') {
             const newTimeEntry: TaskTimeEntry = {
               id: Date.now().toString(),
-              startTime: now,
-              date: now.toDateString()
+              task_id: task.id,
+              start_time: now,
+              date: now.toDateString(),
+              created_at: now
             };
-            updatedTask.timeEntries = [...task.timeEntries, newTimeEntry];
+            updatedTask.time_entries = [...task.time_entries, newTimeEntry];
           }
         }
 
@@ -163,9 +201,10 @@ export const useProjectTasks = () => {
         if (updates.priority && updates.priority !== task.priority) {
           const priorityActivity = {
             id: (Date.now() + Math.random()).toString(),
-            type: 'priority_change' as const,
+            activity_type: 'priority_change' as const,
             description: `Priority changed from "${task.priority}" to "${updates.priority}"`,
-            timestamp: new Date()
+            created_at: new Date(),
+            task_id: task.id
           };
           updatedTask.activities = [...updatedTask.activities, priorityActivity];
         }

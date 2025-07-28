@@ -55,11 +55,11 @@ export const TaskPickerModal: React.FC<TaskPickerModalProps> = ({
 
   const getStatusColor = (status: Task['status']) => {
     switch (status) {
-      case 'Done':
+      case 'done':
         return 'bg-green-100 text-green-800';
-      case 'In Progress':
+      case 'in_progress':
         return 'bg-blue-100 text-blue-800';
-      case 'On Hold':
+      case 'on_hold':
         return 'bg-yellow-100 text-yellow-800';
       default:
         return 'bg-gray-100 text-gray-800';
@@ -68,13 +68,13 @@ export const TaskPickerModal: React.FC<TaskPickerModalProps> = ({
 
   const getPriorityColor = (priority: Task['priority']) => {
     switch (priority) {
-      case 'Critical':
+      case 'critical':
         return 'bg-red-100 text-red-800';
-      case 'High':
+      case 'high':
         return 'bg-orange-100 text-orange-800';
-      case 'Medium':
+      case 'medium':
         return 'bg-yellow-100 text-yellow-800';
-      case 'Low':
+      case 'low':
         return 'bg-green-100 text-green-800';
       default:
         return 'bg-gray-100 text-gray-800';

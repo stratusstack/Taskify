@@ -2,8 +2,8 @@ export interface TaskData {
   title: string;
   description?: string;
   tags: string[];
-  status: 'To Do' | 'In Progress' | 'On Hold' | 'Done';
-  priority: 'Low' | 'Medium' | 'High' | 'Critical';
+  status: 'to_do' | 'in_progress' | 'on_hold' | 'done';
+  priority: 'low' | 'medium' | 'high' | 'critical';
   endDate?: Date;
 }
 
@@ -24,23 +24,23 @@ export class ImageAnalysisService {
           title: 'Review project proposal',
           description: 'Go through the client requirements and prepare feedback',
           tags: ['review', 'client'],
-          status: 'To Do',
-          priority: 'High',
+          status: 'to_do',
+          priority: 'high',
           endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) // 3 days from now
         },
         {
           title: 'Update database schema',
           description: 'Add new fields for user preferences',
           tags: ['database', 'backend'],
-          status: 'To Do',
-          priority: 'Medium'
+          status: 'to_do',
+          priority: 'medium'
         },
         {
           title: 'Design new login page',
           description: 'Create mockups for the updated authentication flow',
           tags: ['design', 'ui', 'auth'],
-          status: 'To Do',
-          priority: 'Medium'
+          status: 'to_do',
+          priority: 'medium'
         }
       ]
     },
@@ -52,16 +52,16 @@ export class ImageAnalysisService {
           title: 'Meeting with team lead',
           description: 'Discuss sprint planning and resource allocation',
           tags: ['meeting', 'planning'],
-          status: 'To Do',
-          priority: 'High',
+          status: 'to_do',
+          priority: 'high',
           endDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000) // 1 day from now
         },
         {
           title: 'Code review for feature branch',
           description: 'Review pull request #142 for the new reporting feature',
           tags: ['review', 'code'],
-          status: 'To Do',
-          priority: 'Medium'
+          status: 'to_do',
+          priority: 'medium'
         }
       ]
     },
@@ -73,8 +73,8 @@ export class ImageAnalysisService {
           title: 'Implement user feedback system',
           description: 'Based on the note: Need to add a way for users to submit feedback and suggestions through the app',
           tags: ['feedback', 'feature'],
-          status: 'To Do',
-          priority: 'Medium',
+          status: 'to_do',
+          priority: 'medium',
           endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 1 week from now
         }
       ]
@@ -88,7 +88,7 @@ export class ImageAnalysisService {
           description: 'Users cannot log in with special characters in password',
           tags: ['bug', 'auth', 'urgent'],
           status: 'To Do',
-          priority: 'Critical'
+          priority: 'critical'
         },
         {
           title: 'Optimize image loading',
@@ -102,14 +102,14 @@ export class ImageAnalysisService {
           description: 'Implement theme switching functionality',
           tags: ['ui', 'theme'],
           status: 'To Do',
-          priority: 'Low'
+          priority: 'low'
         },
         {
           title: 'Write unit tests',
           description: 'Add test coverage for the new API endpoints',
           tags: ['testing', 'api'],
-          status: 'To Do',
-          priority: 'Medium'
+          status: 'to_do',
+          priority: 'medium'
         }
       ]
     }
@@ -143,8 +143,8 @@ export class ImageAnalysisService {
     return modifiedResponse;
   }
 
-  private static getRandomPriority(): 'Low' | 'Medium' | 'High' | 'Critical' {
-    const priorities = ['Low', 'Medium', 'High', 'Critical'] as const;
+  private static getRandomPriority(): 'low' | 'medium' | 'high' | 'critical' {
+    const priorities = ['low', 'medium', 'high', 'critical'] as const;
     return priorities[Math.floor(Math.random() * priorities.length)];
   }
 

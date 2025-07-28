@@ -31,8 +31,8 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState('');
-  const [status, setStatus] = useState<TaskStatus>('To Do');
-  const [priority, setPriority] = useState<TaskPriority>('Medium');
+  const [status, setStatus] = useState<TaskStatus>('to_do');
+  const [priority, setPriority] = useState<TaskPriority>('medium');
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date | undefined>();
   const [totalHours, setTotalHours] = useState<number | undefined>();
@@ -53,9 +53,9 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
       setTotalHours(task.totalHours);
       
       // Set reminder data if exists
-      const activeReminder = task.reminders?.find(r => r.isActive);
+      const activeReminder = task.reminders?.find(r => r.is_active);
       if (activeReminder) {
-        const reminderDateTime = new Date(activeReminder.reminderTime);
+        const reminderDateTime = new Date(activeReminder.reminder_time);
         setReminderDate(reminderDateTime);
         setReminderTime(format(reminderDateTime, 'HH:mm'));
         setReminderMessage(activeReminder.message);
@@ -80,9 +80,9 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
 
       reminders = [{
         id: Date.now().toString(),
-        reminderTime: reminderDateTime,
+        reminder_time: reminderDateTime,
         message: reminderMessage || `Reminder for task: ${title}`,
-        isActive: true
+        is_active: true
       }];
     } else {
       reminders = [];
@@ -94,9 +94,9 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
       tags,
       status,
       priority,
-      startDate,
-      endDate,
-      totalHours,
+      start_date: startDate,
+      end_date: endDate,
+      total_hours: totalHours,
       reminders
     });
 
@@ -177,10 +177,10 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="To Do">To Do</SelectItem>
-                <SelectItem value="In Progress">In Progress</SelectItem>
-                <SelectItem value="On Hold">On Hold</SelectItem>
-                <SelectItem value="Done">Done</SelectItem>
+                <SelectItem value="to_do">To Do</SelectItem>
+                <SelectItem value="in_progress">In Progress</SelectItem>
+                <SelectItem value="on_hold">On Hold</SelectItem>
+                <SelectItem value="done">Done</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -192,10 +192,10 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Low">Low</SelectItem>
-                <SelectItem value="Medium">Medium</SelectItem>
-                <SelectItem value="High">High</SelectItem>
-                <SelectItem value="Critical">Critical</SelectItem>
+                <SelectItem value="low">Low</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+                <SelectItem value="critical">Critical</SelectItem>
               </SelectContent>
             </Select>
           </div>

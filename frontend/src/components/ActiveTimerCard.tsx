@@ -87,7 +87,7 @@ export const ActiveTimerCard: React.FC<ActiveTimerCardProps> = ({
         </div>
 
         {/* Priority indicator */}
-        {task.priority === 'Critical' && (
+        {task.priority === 'critical' && (
           <AlertCircle className="w-3 h-3 text-red-500" />
         )}
       </div>

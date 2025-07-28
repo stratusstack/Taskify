@@ -25,7 +25,7 @@ interface TaskCardProps {
   onActivityClick?: (task: Task) => void;
 }
 
-const statusOptions: TaskStatus[] = ['To Do', 'In Progress', 'On Hold', 'Done'];
+const statusOptions: TaskStatus[] = ['to_do', 'in_progress', 'on_hold', 'done'];
 
 export const TaskCard: React.FC<TaskCardProps> = ({ task, onUpdateTask, onDeleteTask, onActivityClick }) => {
   const [showDetails, setShowDetails] = useState(false);
@@ -40,9 +40,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, onUpdateTask, onDelete
   };
 
   const getTotalTimeSpent = () => {
-    return task.timeEntries.reduce((total, entry) => {
-      if (entry.endTime) {
-        const diff = new Date(entry.endTime).getTime() - new Date(entry.startTime).getTime();
+    return task.time_entries.reduce((total, entry) => {
+      if (entry.end_time) {
+        const diff = new Date(entry.end_time).getTime() - new Date(entry.start_time).getTime();
         return total + Math.floor(diff / 1000 / 60);
       }
       return total;
@@ -70,7 +70,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, onUpdateTask, onDelete
         {/* Header Section */}
         <div className="flex items-start justify-between p-4 pb-0">
           {/* Real-time timer for In Progress tasks */}
-          {task.status === 'In Progress' && realTimeMinutes > 0 && (
+          {task.status === 'in_progress' && realTimeMinutes > 0 && (
             <div className="flex items-center gap-1.5 bg-green-50 text-green-700 px-2.5 py-1.5 rounded-md text-xs font-medium border border-green-200">
               <Timer className="w-3.5 h-3.5" />
               <span>{realTimeMinutes}m</span>

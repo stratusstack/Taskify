@@ -42,26 +42,26 @@ export const TaskRow: React.FC<TaskRowProps> = ({
   const realTimeMinutes = useRealTimeTimer(task);
 
   const totalTime = useMemo(() => {
-    return task.timeEntries.reduce((total, entry) => {
-      if (entry.endTime) {
-        const diff = new Date(entry.endTime).getTime() - new Date(entry.startTime).getTime();
+    return task.time_entries.reduce((total, entry) => {
+      if (entry.end_time) {
+        const diff = new Date(entry.end_time).getTime() - new Date(entry.start_time).getTime();
         return total + Math.floor(diff / 1000 / 60);
       }
       return total;
     }, 0);
-  }, [task.timeEntries]);
+  }, [task.time_entries]);
 
   const progressPercentage = useMemo(() => {
-    if (!task.totalHours) {
+    if (!task.total_hours) {
       return 'NA';
     }
     
-    const totalMinutes = task.totalHours * 60;
-    const spentMinutes = totalTime + (task.status === 'In Progress' ? realTimeMinutes : 0);
+    const totalMinutes = task.total_hours * 60;
+    const spentMinutes = totalTime + (task.status === 'in_progress' ? realTimeMinutes : 0);
     const percentage = Math.min(Math.round((spentMinutes / totalMinutes) * 100), 100);
     
     return `${percentage}%`;
-  }, [task.totalHours, totalTime, task.status, realTimeMinutes]);
+  }, [task.total_hours, totalTime, task.status, realTimeMinutes]);
 
   const handleStatusChange = (value: TaskStatus) => {
     onUpdateTask(task.id, { status: value });
@@ -134,10 +134,10 @@ export const TaskRow: React.FC<TaskRowProps> = ({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="To Do">To Do</SelectItem>
-                    <SelectItem value="In Progress">In Progress</SelectItem>
-                    <SelectItem value="On Hold">On Hold</SelectItem>
-                    <SelectItem value="Done">Done</SelectItem>
+                    <SelectItem value="to_do">To Do</SelectItem>
+                    <SelectItem value="in_progress">In Progress</SelectItem>
+                    <SelectItem value="on_hold">On Hold</SelectItem>
+                    <SelectItem value="done">Done</SelectItem>
                   </SelectContent>
                 </Select>
               </TableCell>
@@ -153,7 +153,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
             {columnConfig.timeSpent && (
               <TableCell>
                 <div className="flex items-center gap-1">
-                  {task.status === 'In Progress' && realTimeMinutes > 0 ? (
+                  {task.status === 'in_progress' && realTimeMinutes > 0 ? (
                     <div className="flex items-center gap-1 text-green-600">
                       <Timer className="w-3 h-3" />
                       <span className="text-sm">{formatTimeSpent(realTimeMinutes)} {totalTime > 0 ? `(+${formatTimeSpent(totalTime)})` : ''}</span>
@@ -178,7 +178,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
             {columnConfig.startDate && (
               <TableCell>
                 <span className="text-sm text-gray-600">
-                  {task.startDate ? format(new Date(task.startDate), 'MMM dd, yyyy') : 'No date set'}
+                  {task.start_date ? format(new Date(task.start_date), 'MMM dd, yyyy') : 'No date set'}
                 </span>
               </TableCell>
             )}
@@ -186,7 +186,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
             {columnConfig.endDate && (
               <TableCell>
                 <span className="text-sm text-gray-600">
-                  {task.endDate ? format(new Date(task.endDate), 'MMM dd, yyyy') : 'No date set'}
+                  {task.end_date ? format(new Date(task.end_date), 'MMM dd, yyyy') : 'No date set'}
                 </span>
               </TableCell>
             )}
@@ -194,7 +194,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
             {columnConfig.totalHours && (
               <TableCell>
                 <span className="text-sm text-gray-600">
-                  {task.totalHours ? `${task.totalHours}h` : 'Not set'}
+                  {task.total_hours ? `${task.total_hours}h` : 'Not set'}
                 </span>
               </TableCell>
             )}

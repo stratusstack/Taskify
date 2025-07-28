@@ -10,7 +10,7 @@ export interface StatusStyling {
 
 export const getStatusStyling = (status: TaskStatus): StatusStyling => {
   switch (status) {
-    case 'To Do':
+    case 'to_do':
       return {
         container: 'bg-slate-50 border-slate-200',
         header: 'bg-slate-100 border-slate-200',
@@ -18,7 +18,7 @@ export const getStatusStyling = (status: TaskStatus): StatusStyling => {
         icon: 'text-slate-500',
         accent: 'border-l-4 border-l-slate-400'
       };
-    case 'In Progress':
+    case 'in_progress':
       return {
         container: 'bg-blue-50 border-blue-200',
         header: 'bg-blue-100 border-blue-200',
@@ -26,7 +26,7 @@ export const getStatusStyling = (status: TaskStatus): StatusStyling => {
         icon: 'text-blue-500',
         accent: 'border-l-4 border-l-blue-500'
       };
-    case 'On Hold':
+    case 'on_hold':
       return {
         container: 'bg-amber-50 border-amber-200',
         header: 'bg-amber-100 border-amber-200',
@@ -34,7 +34,7 @@ export const getStatusStyling = (status: TaskStatus): StatusStyling => {
         icon: 'text-amber-500',
         accent: 'border-l-4 border-l-amber-500'
       };
-    case 'Done':
+    case 'done':
       return {
         container: 'bg-emerald-50 border-emerald-200',
         header: 'bg-emerald-100 border-emerald-200',

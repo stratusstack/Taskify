@@ -19,36 +19,36 @@ export const TaskDependencyNode: React.FC<TaskDependencyNodeProps> = ({ data }) 
 
   const getStatusColor = () => {
     switch (task.status) {
-      case 'Done': return 'bg-emerald-100 border-emerald-300 text-emerald-800';
-      case 'In Progress': return 'bg-blue-100 border-blue-300 text-blue-800';
-      case 'On Hold': return 'bg-amber-100 border-amber-300 text-amber-800';
+      case 'done': return 'bg-emerald-100 border-emerald-300 text-emerald-800';
+      case 'in_progress': return 'bg-blue-100 border-blue-300 text-blue-800';
+      case 'on_hold': return 'bg-amber-100 border-amber-300 text-amber-800';
       default: return 'bg-gray-100 border-gray-300 text-gray-800';
     }
   };
 
   const getPriorityBorder = () => {
     switch (task.priority) {
-      case 'Critical': return 'border-red-500 shadow-red-500/20';
-      case 'High': return 'border-orange-500 shadow-orange-500/20';
-      case 'Medium': return 'border-yellow-500 shadow-yellow-500/20';
-      case 'Low': return 'border-green-500 shadow-green-500/20';
+      case 'critical': return 'border-red-500 shadow-red-500/20';
+      case 'high': return 'border-orange-500 shadow-orange-500/20';
+      case 'medium': return 'border-yellow-500 shadow-yellow-500/20';
+      case 'low': return 'border-green-500 shadow-green-500/20';
       default: return 'border-gray-400 shadow-gray-400/20';
     }
   };
 
   const getStatusBackground = () => {
     switch (task.status) {
-      case 'Done': return 'bg-emerald-50';
-      case 'In Progress': return 'bg-blue-50';
-      case 'On Hold': return 'bg-amber-50';
+      case 'done': return 'bg-emerald-50';
+      case 'in_progress': return 'bg-blue-50';
+      case 'on_hold': return 'bg-amber-50';
       default: return 'bg-gray-50';
     }
   };
 
   const getTotalTime = () => {
-    return task.timeEntries.reduce((total, entry) => {
-      if (entry.endTime) {
-        const diff = new Date(entry.endTime).getTime() - new Date(entry.startTime).getTime();
+    return task.time_entries.reduce((total, entry) => {
+      if (entry.end_time) {
+        const diff = new Date(entry.end_time).getTime() - new Date(entry.start_time).getTime();
         return total + Math.floor(diff / 1000 / 60);
       }
       return total;

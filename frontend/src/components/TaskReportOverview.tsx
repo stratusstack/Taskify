@@ -14,9 +14,9 @@ export const TaskReportOverview: React.FC<TaskReportOverviewProps> = ({ tasks })
 
   const getTotalTimeSpent = () => {
     return tasks.reduce((total, task) => {
-      return total + task.timeEntries.reduce((taskTotal, entry) => {
-        if (entry.endTime) {
-          const diff = new Date(entry.endTime).getTime() - new Date(entry.startTime).getTime();
+      return total + task.time_entries.reduce((taskTotal, entry) => {
+        if (entry.end_time) {
+          const diff = new Date(entry.end_time).getTime() - new Date(entry.start_time).getTime();
           return taskTotal + Math.floor(diff / 1000 / 60);
         }
         return taskTotal;

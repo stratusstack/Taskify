@@ -10,7 +10,7 @@ interface TaskBoardProps {
   onActivityClick?: (task: Task) => void;
 }
 
-const statuses: TaskStatus[] = ['To Do', 'In Progress', 'On Hold', 'Done'];
+const statuses: TaskStatus[] = ['to_do', 'in_progress', 'on_hold', 'done'];
 
 /**
  * TaskBoard Component
@@ -28,30 +28,30 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, onUpdateTask, onDel
   // Define status-specific background colors and gradients
   const getStatusColor = (status: TaskStatus) => {
     switch (status) {
-      case 'To Do': return 'bg-gradient-to-br from-slate-50 to-slate-100 border-slate-300 shadow-slate-200/50';
-      case 'In Progress': return 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300 shadow-blue-200/50';
-      case 'On Hold': return 'bg-gradient-to-br from-amber-50 to-amber-100 border-amber-300 shadow-amber-200/50';
-      case 'Done': return 'bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-300 shadow-emerald-200/50';
+      case 'to_do': return 'bg-gradient-to-br from-slate-50 to-slate-100 border-slate-300 shadow-slate-200/50';
+      case 'in_progress': return 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300 shadow-blue-200/50';
+      case 'on_hold': return 'bg-gradient-to-br from-amber-50 to-amber-100 border-amber-300 shadow-amber-200/50';
+      case 'done': return 'bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-300 shadow-emerald-200/50';
       default: return 'bg-gradient-to-br from-slate-50 to-slate-100 border-slate-300 shadow-slate-200/50';
     }
   };
 
   const getStatusTextColor = (status: TaskStatus) => {
     switch (status) {
-      case 'To Do': return 'text-slate-800';
-      case 'In Progress': return 'text-blue-800';
-      case 'On Hold': return 'text-amber-800';
-      case 'Done': return 'text-emerald-800';
+      case 'to_do': return 'text-slate-800';
+      case 'in_progress': return 'text-blue-800';
+      case 'on_hold': return 'text-amber-800';
+      case 'done': return 'text-emerald-800';
       default: return 'text-slate-800';
     }
   };
 
   const getStatusIcon = (status: TaskStatus) => {
     switch (status) {
-      case 'To Do': return '📋';
-      case 'In Progress': return '⚡';
-      case 'On Hold': return '⏸️';
-      case 'Done': return '✅';
+      case 'to_do': return '📋';
+      case 'in_progress': return '⚡';
+      case 'on_hold': return '⏸️';
+      case 'done': return '✅';
       default: return '📋';
     }
   };

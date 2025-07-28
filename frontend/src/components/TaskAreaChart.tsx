@@ -63,8 +63,8 @@ export const TaskAreaChart: React.FC<TaskAreaChartProps> = ({ tasks }) => {
       selectedTasks.forEach((task, index) => {
         let totalHours = 0;
 
-        task.timeEntries.forEach(entry => {
-          const entryDate = new Date(entry.startTime);
+        task.time_entries.forEach(entry => {
+          const entryDate = new Date(entry.start_time);
           let isInPeriod = false;
 
           switch (zoomLevel) {
@@ -80,8 +80,8 @@ export const TaskAreaChart: React.FC<TaskAreaChartProps> = ({ tasks }) => {
               break;
           }
 
-          if (isInPeriod && entry.endTime) {
-            const duration = (entry.endTime.getTime() - entry.startTime.getTime()) / (1000 * 60 * 60);
+          if (isInPeriod && entry.end_time) {
+            const duration = (new Date(entry.end_time).getTime() - new Date(entry.start_time).getTime()) / (1000 * 60 * 60);
             totalHours += duration;
           }
         });

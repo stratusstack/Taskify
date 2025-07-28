@@ -33,8 +33,8 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState('');
-  const [status, setStatus] = useState<TaskStatus>('To Do');
-  const [priority, setPriority] = useState<TaskPriority>('Medium');
+  const [status, setStatus] = useState<TaskStatus>('to_do');
+  const [priority, setPriority] = useState<TaskPriority>('medium');
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date | undefined>();
   const [totalHours, setTotalHours] = useState<number | undefined>();
@@ -54,9 +54,9 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
 
       reminders = [{
         id: Date.now().toString(),
-        reminderTime: reminderDateTime,
+        reminder_time: reminderDateTime,
         message: reminderMessage || `Reminder for task: ${title}`,
-        isActive: true
+        is_active: true
       }];
     }
 
@@ -66,13 +66,13 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
       tags,
       status,
       priority,
-      startDate,
-      endDate,
-      totalHours,
+      start_date: startDate,
+      end_date: endDate,
+      total_hours: totalHours,
       reminders,
       activities: [],
-      projectId,
-      createdAt: new Date(),
+      project_id: projectId,
+      created_at: new Date(),
       dependencies: []
     });
 
@@ -81,8 +81,8 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
     setDescription('');
     setTags([]);
     setNewTag('');
-    setStatus('To Do');
-    setPriority('Medium');
+    setStatus('to_do');
+    setPriority('medium');
     setStartDate(new Date());
     setEndDate(undefined);
     setTotalHours(undefined);
@@ -166,10 +166,10 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Low">Low</SelectItem>
-                <SelectItem value="Medium">Medium</SelectItem>
-                <SelectItem value="High">High</SelectItem>
-                <SelectItem value="Critical">Critical</SelectItem>
+                <SelectItem value="low">Low</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+                <SelectItem value="critical">Critical</SelectItem>
               </SelectContent>
             </Select>
           </div>

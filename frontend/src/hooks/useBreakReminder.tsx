@@ -23,12 +23,12 @@ export const useBreakReminder = (
       audioRef.current = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1O/BdCMFl');
     }
 
-    if (task.status !== 'In Progress') {
+    if (task.status !== 'in_progress') {
       lastReminderRef.current = 0;
       return;
     }
 
-    const activeEntry = task.timeEntries.find(entry => !entry.endTime);
+    const activeEntry = task.time_entries.find(entry => !entry.end_time);
     if (!activeEntry) {
       lastReminderRef.current = 0;
       return;
@@ -36,7 +36,7 @@ export const useBreakReminder = (
 
     const checkBreakReminder = () => {
       const now = new Date();
-      const startTime = new Date(activeEntry.startTime);
+      const startTime = new Date(activeEntry.start_time);
       const minutesWorked = Math.floor((now.getTime() - startTime.getTime()) / (1000 * 60));
       
       // Check if we've hit a break interval and haven't reminded for this interval
@@ -68,7 +68,7 @@ export const useBreakReminder = (
     const interval = setInterval(checkBreakReminder, 60000);
 
     return () => clearInterval(interval);
-  }, [task.status, task.timeEntries, task.title, intervalMinutes, soundEnabled, toast]);
+  }, [task.status, task.time_entries, task.title, intervalMinutes, soundEnabled, toast]);
 
   return null;
 };

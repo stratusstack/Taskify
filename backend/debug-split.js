@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * debug-split.js
+ *
+ * This script reads a SQL migration file and splits its contents into
+ * individual SQL statements for debugging purposes. It prints the raw SQL,
+ * then prints each parsed statement (excluding comments and empty lines).
+ *
+ * Usage:
+ *   node debug-split.js
+ *
+ * Intended for debugging SQL migration parsing and statement splitting logic.
+ * ============================================================================
+ */
+
 import fs from 'fs/promises';
 
 async function debugSplit() {

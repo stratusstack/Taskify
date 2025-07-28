@@ -20,20 +20,58 @@ This is a comprehensive task management application built with React, TypeScript
 
 ## Project Structure
 
+This is a monorepo structure with separate frontend and backend applications:
+
+### Frontend Structure (`frontend/`)
 ```
-src/
-├── components/           # React components
-│   ├── ui/              # Base UI components (shadcn/ui)
-│   ├── auth/            # Authentication related components
-│   └── *.tsx            # Feature-specific components
-├── hooks/               # Custom React hooks
-├── pages/               # Page components (route handlers)
-├── types/               # TypeScript type definitions
-├── utils/               # Utility functions
-├── contexts/            # React contexts
-├── data/                # Mock data and constants
-├── lib/                 # Library configurations
-└── main.tsx            # Application entry point
+frontend/
+├── src/
+│   ├── components/           # React components
+│   │   ├── ui/              # Base UI components (shadcn/ui)
+│   │   ├── auth/            # Authentication related components
+│   │   └── *.tsx            # Feature-specific components
+│   ├── hooks/               # Custom React hooks
+│   ├── pages/               # Page components (route handlers)
+│   ├── types/               # TypeScript type definitions
+│   ├── utils/               # Utility functions
+│   ├── contexts/            # React contexts
+│   ├── data/                # Mock data and constants
+│   ├── lib/                 # Library configurations
+│   ├── services/            # API services and external integrations
+│   └── main.tsx            # Application entry point
+├── public/                  # Static assets
+├── package.json            # Frontend dependencies
+├── vite.config.ts          # Vite configuration
+├── tailwind.config.ts      # Tailwind CSS configuration
+└── tsconfig.json           # TypeScript configuration
+```
+
+### Backend Structure (`backend/`)
+```
+backend/
+├── src/
+│   ├── config/
+│   │   └── database.js          # Environment-based database configuration
+│   ├── database/
+│   │   ├── connections/
+│   │   │   ├── postgresql.js    # PostgreSQL connection wrapper
+│   │   │   └── sqlite.js        # SQLite connection wrapper
+│   │   ├── migrations/
+│   │   │   ├── postgresql/      # PostgreSQL-specific DDL scripts
+│   │   │   └── sqlite/          # SQLite-specific DDL scripts
+│   │   ├── connectionFactory.js # Database factory pattern implementation
+│   │   └── migrationRunner.js   # Automatic migration system
+│   ├── middleware/
+│   │   └── errorHandler.js      # Error handling middleware
+│   ├── routes/
+│   │   ├── users.js            # User management API endpoints
+│   │   ├── projects.js         # Project management API endpoints
+│   │   ├── tasks.js            # Task management API endpoints
+│   │   └── timeEntries.js      # Time tracking API endpoints
+│   ├── utils/                   # Backend utility functions
+│   └── server.js               # Express server with middleware setup
+├── package.json                # Backend dependencies and scripts
+└── README.md                   # Backend documentation
 ```
 
 ## Database Schema
@@ -689,6 +727,34 @@ The backend service has been tested with:
 - Database connection pooling
 - Security middleware enabled
 - Error handling and logging in place
+
+
+### AI-Powered Image Task Extraction
+
+Transform your handwritten notes, sketches, and visual task lists into organized digital tasks with our cutting-edge AI image analysis feature.
+
+**How it works:**
+1. **Upload any image** - Photos of handwritten notes, whiteboard sketches, sticky notes, or any visual content containing task information
+2. **AI Analysis** - Our advanced AI scans and interprets the image content, identifying tasks, priorities, and relevant details
+3. **Smart Extraction** - The system automatically extracts task titles, descriptions, priorities, and suggested tags
+4. **One-Click Creation** - Review the extracted tasks and create them all at once with a single click
+
+**Perfect for:**
+- Converting handwritten meeting notes into actionable tasks
+- Digitizing whiteboard brainstorming sessions
+- Organizing sticky note collections
+- Processing screenshots of task lists from other platforms
+- Transforming sketches and diagrams into structured project tasks
+
+**Technical Implementation:**
+- Drag-and-drop interface with image preview
+- Real-time analysis progress tracking
+- Intelligent task priority detection
+- Automatic tag suggestion based on content
+- Seamless integration with the existing task management system
+
+This feature bridges the gap between analog and digital productivity workflows, making it effortless to capture and organize tasks from any visual source.
+
 
 #### Database Migration from localStorage
 The backend provides a clear migration path from the current localStorage-based frontend to a proper database backend. Key considerations have been implemented:

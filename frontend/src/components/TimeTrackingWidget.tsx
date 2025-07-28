@@ -26,19 +26,19 @@ export const TimeTrackingWidget: React.FC<TimeTrackingWidgetProps> = ({
   // Enhanced sorting logic for "In Progress" tasks
   const inProgressTasks = React.useMemo(() => {
     return tasks
-      .filter(t => t.status === 'In Progress')
+      .filter(t => t.status === 'in_progress')
       .sort((a, b) => {
         // Sort by most recent status change activity
         const aLastActivity = a.activities
-          ?.filter(activity => activity.type === 'status_change')
-          ?.sort((x, y) => new Date(y.timestamp).getTime() - new Date(x.timestamp).getTime())[0];
+          ?.filter(activity => activity.activity_type === 'status_change')
+          ?.sort((x, y) => new Date(y.created_at).getTime() - new Date(x.created_at).getTime())[0];
         
         const bLastActivity = b.activities
-          ?.filter(activity => activity.type === 'status_change')
-          ?.sort((x, y) => new Date(y.timestamp).getTime() - new Date(x.timestamp).getTime())[0];
+          ?.filter(activity => activity.activity_type === 'status_change')
+          ?.sort((x, y) => new Date(y.created_at).getTime() - new Date(x.created_at).getTime())[0];
         
-        const aTime = aLastActivity ? new Date(aLastActivity.timestamp).getTime() : 0;
-        const bTime = bLastActivity ? new Date(bLastActivity.timestamp).getTime() : 0;
+        const aTime = aLastActivity ? new Date(aLastActivity.created_at).getTime() : 0;
+        const bTime = bLastActivity ? new Date(bLastActivity.created_at).getTime() : 0;
         
         return bTime - aTime; // Most recent first
       })
@@ -48,26 +48,26 @@ export const TimeTrackingWidget: React.FC<TimeTrackingWidgetProps> = ({
   // Other tasks for starting timers
   const otherTasks = React.useMemo(() => {
     return tasks
-      .filter(t => t.status === 'To Do' || t.status === 'On Hold')
+      .filter(t => t.status === 'to_do' || t.status === 'on_hold')
       .slice(0, 3);
   }, [tasks]);
 
   const getTotalTimeSpent = React.useCallback((task: Task) => {
-    return task.timeEntries
-      .filter(entry => entry.endTime)
+    return task.time_entries
+      .filter(entry => entry.end_time)
       .reduce((total, entry) => {
-        const start = new Date(entry.startTime);
-        const end = new Date(entry.endTime!);
+        const start = new Date(entry.start_time);
+        const end = new Date(entry.end_time!);
         return total + (end.getTime() - start.getTime());
       }, 0);
   }, []);
 
   const getCurrentSessionTime = React.useCallback((task: Task) => {
-    const activeEntry = task.timeEntries.find(entry => !entry.endTime);
+    const activeEntry = task.time_entries.find(entry => !entry.end_time);
     if (!activeEntry) return 0;
     
     const now = new Date();
-    const start = new Date(activeEntry.startTime);
+    const start = new Date(activeEntry.start_time);
     return now.getTime() - start.getTime();
   }, []);
 
@@ -148,9 +148,9 @@ export const TimeTrackingWidget: React.FC<TimeTrackingWidgetProps> = ({
               })}
             </div>
 
-            {otherTasks.length >= 3 && tasks.filter(t => t.status === 'To Do' || t.status === 'On Hold').length > 3 && (
+            {otherTasks.length >= 3 && tasks.filter(t => t.status === 'to_do' || t.status === 'on_hold').length > 3 && (
               <p className="text-xs text-muted-foreground text-center bg-muted/20 rounded-md py-2">
-                +{tasks.filter(t => t.status === 'To Do' || t.status === 'On Hold').length - 3} more tasks available
+                +{tasks.filter(t => t.status === 'to_do' || t.status === 'on_hold').length - 3} more tasks available
               </p>
             )}
           </section>

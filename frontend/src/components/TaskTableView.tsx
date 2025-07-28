@@ -47,7 +47,7 @@ export const TaskTableView: React.FC<TaskTableViewProps> = ({
     }, {} as Record<TaskStatus, Task[]>);
   }, [tasks]);
 
-  const statusOrder: TaskStatus[] = ['To Do', 'In Progress', 'On Hold', 'Done'];
+  const statusOrder: TaskStatus[] = ['to_do', 'in_progress', 'on_hold', 'done'];
 
   return (
     <div className="space-y-6">

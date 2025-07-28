@@ -23,9 +23,9 @@ export const TasksWithMostTime: React.FC<TasksWithMostTimeProps> = ({ tasks, onT
     return tasks
       .map(task => ({
         ...task,
-        totalTime: task.timeEntries.reduce((total, entry) => {
-          if (entry.endTime) {
-            const diff = new Date(entry.endTime).getTime() - new Date(entry.startTime).getTime();
+        totalTime: task.time_entries.reduce((total, entry) => {
+          if (entry.end_time) {
+            const diff = new Date(entry.end_time).getTime() - new Date(entry.start_time).getTime();
             return total + Math.floor(diff / 1000 / 60);
           }
           return total;
@@ -87,7 +87,7 @@ export const TasksWithMostTime: React.FC<TasksWithMostTimeProps> = ({ tasks, onT
                     <div className="text-right">
                       <div className="font-semibold text-sm">{formatDuration(task.totalTime)}</div>
                       <div className="text-xs text-gray-500">
-                        {task.timeEntries.length} session{task.timeEntries.length !== 1 ? 's' : ''}
+                        {task.time_entries.length} session{task.time_entries.length !== 1 ? 's' : ''}
                       </div>
                     </div>
                     <div className="flex items-center gap-1">
