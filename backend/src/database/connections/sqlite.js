@@ -1,3 +1,69 @@
+/**
+ * SQLITE DATABASE CONNECTION
+ * 
+ * Lightweight, embedded SQLite database connection wrapper for the Taskify backend.
+ * This module provides a robust SQLite integration with transaction support,
+ * foreign key constraints, and development-friendly features.
+ * 
+ * CORE FEATURES:
+ * - Zero-configuration embedded database setup
+ * - File-based database storage with configurable paths
+ * - Foreign key constraint enforcement
+ * - Transaction management with automatic rollback
+ * - Promise-based async/await interface
+ * - Development mode verbose logging
+ * 
+ * DATABASE CHARACTERISTICS:
+ * - Self-contained, serverless database engine
+ * - ACID compliant transactions
+ * - SQL standard compliance with SQLite extensions
+ * - Cross-platform file format
+ * - Excellent performance for read-heavy workloads
+ * - Perfect for development, testing, and small-scale production
+ * 
+ * QUERY HANDLING:
+ * - Automatic query type detection (SELECT vs non-SELECT)
+ * - Consistent response format matching PostgreSQL interface
+ * - Row count and last insert ID tracking
+ * - Parameterized query support for security
+ * - Error handling with detailed logging
+ * 
+ * TRANSACTION SUPPORT:
+ * - BEGIN/COMMIT/ROLLBACK transaction control
+ * - Automatic rollback on errors or exceptions
+ * - Callback-based transaction execution pattern
+ * - Data consistency guarantees
+ * 
+ * SECURITY FEATURES:
+ * - Foreign key constraint enforcement (PRAGMA foreign_keys = ON)
+ * - Parameterized queries to prevent SQL injection
+ * - Safe file path handling
+ * - Error message sanitization
+ * 
+ * DEVELOPMENT FEATURES:
+ * - Verbose mode for detailed SQL logging
+ * - Comprehensive error reporting
+ * - Connection status monitoring
+ * - File-based storage for easy inspection
+ * 
+ * METHODS:
+ * - connect(): Establishes SQLite database connection
+ * - query(sql, params): Executes SQL with parameters
+ * - transaction(callback): Executes operations within transaction
+ * - close(): Gracefully closes database connection
+ * - testConnection(): Validates database connectivity
+ * 
+ * CONFIGURATION:
+ * - filename: Database file path
+ * - verbose: Enable detailed logging (development mode)
+ * - mode: Database access mode (handled automatically)
+ * 
+ * COMPATIBILITY:
+ * - Provides PostgreSQL-compatible interface
+ * - Unified response format for database-agnostic operations
+ * - Seamless integration with connection factory pattern
+ */
+
 import sqlite3 from 'sqlite3';
 import { promisify } from 'util';
 

@@ -1,3 +1,64 @@
+/**
+ * POSTGRESQL DATABASE CONNECTION
+ * 
+ * Enterprise-grade PostgreSQL database connection wrapper for the Taskify backend.
+ * This module provides a robust, production-ready PostgreSQL integration with
+ * connection pooling, transaction management, and comprehensive error handling.
+ * 
+ * CORE FEATURES:
+ * - Connection pooling for optimal performance and resource management
+ * - SSL support for secure database connections
+ * - Transaction management with automatic rollback on errors
+ * - Prepared statement support for query optimization
+ * - Connection health monitoring and testing
+ * - Graceful connection lifecycle management
+ * 
+ * CONNECTION POOLING:
+ * - Configurable pool size (max connections)
+ * - Idle timeout management for resource optimization
+ * - Connection timeout handling for reliability
+ * - Automatic connection recycling and cleanup
+ * - Load balancing across multiple connections
+ * 
+ * TRANSACTION SUPPORT:
+ * - BEGIN/COMMIT/ROLLBACK transaction control
+ * - Automatic rollback on errors or exceptions
+ * - Client connection management during transactions
+ * - Callback-based transaction execution pattern
+ * - Resource cleanup after transaction completion
+ * 
+ * SECURITY FEATURES:
+ * - SSL/TLS encryption support for data in transit
+ * - Parameterized queries to prevent SQL injection
+ * - Connection credential management
+ * - Secure password handling
+ * 
+ * PERFORMANCE OPTIMIZATIONS:
+ * - Connection reuse through pooling
+ * - Prepared statement caching
+ * - Query result optimization
+ * - Memory efficient result handling
+ * 
+ * ERROR HANDLING:
+ * - Comprehensive error logging with context
+ * - Connection failure recovery
+ * - Query error management
+ * - Resource cleanup on errors
+ * 
+ * METHODS:
+ * - connect(): Establishes connection pool with configuration
+ * - query(text, params): Executes parameterized SQL queries
+ * - transaction(callback): Executes operations within transaction
+ * - close(): Gracefully closes all connections
+ * - testConnection(): Validates database connectivity
+ * 
+ * CONFIGURATION:
+ * - Host, port, database, user, password
+ * - SSL settings and certificates
+ * - Pool size and timeout configurations
+ * - Performance tuning parameters
+ */
+
 import pg from 'pg';
 const { Pool } = pg;
 

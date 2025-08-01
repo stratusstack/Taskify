@@ -1,3 +1,63 @@
+/**
+ * IMAGE UPLOAD DIALOG - AI-POWERED TASK EXTRACTION
+ * 
+ * Advanced image upload and AI analysis component that transforms visual content
+ * into structured task data. This component bridges the gap between analog and
+ * digital productivity workflows through cutting-edge AI image analysis.
+ * 
+ * CORE FUNCTIONALITY:
+ * - Drag-and-drop image upload interface
+ * - AI-powered image content analysis
+ * - Automatic task extraction from visual content
+ * - Real-time analysis progress tracking
+ * - Batch task creation from extracted data
+ * 
+ * SUPPORTED USE CASES:
+ * - Handwritten notes and lists conversion
+ * - Whiteboard and meeting notes digitization
+ * - Sticky note organization and digitization
+ * - Screenshot processing from other platforms
+ * - Sketch and diagram task extraction
+ * 
+ * AI ANALYSIS FEATURES:
+ * - Text recognition and extraction (OCR)
+ * - Task priority detection from visual cues
+ * - Tag suggestion based on content analysis
+ * - Due date extraction from text
+ * - Task categorization and organization
+ * 
+ * USER EXPERIENCE:
+ * - Intuitive drag-and-drop interface
+ * - Real-time image preview
+ * - Progress tracking during analysis
+ * - Results preview before task creation
+ * - Error handling and user feedback
+ * 
+ * FILE SUPPORT:
+ * - Multiple image formats (PNG, JPG, JPEG, GIF, BMP, WebP)
+ * - Client-side image validation
+ * - File size optimization
+ * - Preview generation
+ * 
+ * WORKFLOW INTEGRATION:
+ * - Seamless integration with task creation system
+ * - Project association for created tasks
+ * - Bulk task creation capabilities
+ * - Undo/redo support for batch operations
+ * 
+ * SECURITY & PRIVACY:
+ * - Client-side image processing where possible
+ * - Secure API communication for AI analysis
+ * - No permanent image storage
+ * - Privacy-conscious data handling
+ * 
+ * ACCESSIBILITY:
+ * - Screen reader support for upload interface
+ * - Keyboard navigation compatibility
+ * - Alternative text for visual elements
+ * - Progress announcements for assistive technology
+ */
+
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';

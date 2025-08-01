@@ -1,3 +1,77 @@
+/**
+ * DATABASE MIGRATION RUNNER
+ * 
+ * Comprehensive database schema migration system for the Taskify backend.
+ * This module provides automated, version-controlled database schema management
+ * with support for both PostgreSQL and SQLite databases.
+ * 
+ * CORE FUNCTIONALITY:
+ * - Automatic migration discovery and execution
+ * - Database-agnostic migration file processing
+ * - Migration state tracking and history
+ * - Transaction-based migration execution for data safety
+ * - Rollback capabilities for development and recovery
+ * - Idempotent migration execution (runs only once)
+ * 
+ * MIGRATION SYSTEM:
+ * - File-based migration organization by database type
+ * - Alphabetical execution order for predictable results
+ * - Migration tracking table for execution history
+ * - Comprehensive error handling and recovery
+ * - Detailed logging with emoji indicators for better UX
+ * 
+ * DIRECTORY STRUCTURE:
+ * - migrations/postgresql/ - PostgreSQL-specific migrations
+ * - migrations/sqlite/ - SQLite-specific migrations
+ * - Automatic database type detection from configuration
+ * - Migration file naming convention: {number}_{description}.sql
+ * 
+ * SAFETY FEATURES:
+ * - Transaction-wrapped migration execution
+ * - Automatic rollback on migration failure
+ * - Duplicate migration prevention
+ * - Migration state consistency validation
+ * - Comprehensive error reporting and logging
+ * 
+ * FILE PROCESSING:
+ * - SQL comment filtering for clean execution
+ * - Statement splitting by semicolon
+ * - Empty statement removal
+ * - Cross-database parameterized query handling
+ * 
+ * MIGRATION TRACKING:
+ * - Dedicated migrations table for execution history
+ * - Filename and timestamp recording
+ * - Execution order preservation
+ * - Rollback capability with history management
+ * 
+ * METHODS:
+ * - runMigrations(): Discovers and executes pending migrations
+ * - createMigrationsTable(): Initializes migration tracking
+ * - getMigrationFiles(): Discovers available migration files
+ * - getExecutedMigrations(): Retrieves migration history
+ * - executeMigration(filename): Executes single migration safely
+ * - rollbackLastMigration(): Removes last migration from history
+ * 
+ * ERROR HANDLING:
+ * - Detailed error logging with context
+ * - Migration failure recovery procedures
+ * - File system error handling (missing directories, etc.)
+ * - Database constraint violation handling
+ * 
+ * DEVELOPMENT FEATURES:
+ * - Color-coded console output with emojis
+ * - Detailed progress reporting
+ * - Migration status summaries
+ * - Development-friendly error messages
+ * 
+ * PRODUCTION SAFETY:
+ * - Transaction-based execution prevents partial migrations
+ * - Migration state consistency checks
+ * - Comprehensive logging for audit trails
+ * - Graceful error handling and recovery
+ */
+
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';

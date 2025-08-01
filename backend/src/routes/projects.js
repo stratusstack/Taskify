@@ -1,3 +1,64 @@
+/**
+ * PROJECT MANAGEMENT API ROUTES
+ * 
+ * RESTful API endpoints for project management in the Taskify system.
+ * This module provides comprehensive CRUD operations for project organization
+ * with user association, filtering, and status management capabilities.
+ * 
+ * ENDPOINT OVERVIEW:
+ * - GET    /api/projects     - Retrieve all projects with optional filtering
+ * - GET    /api/projects/:id - Retrieve specific project by ID
+ * - POST   /api/projects     - Create new project
+ * - PUT    /api/projects/:id - Update existing project
+ * - DELETE /api/projects/:id - Delete project and associated data
+ * 
+ * CORE FEATURES:
+ * - Full CRUD operations for project lifecycle management
+ * - User-project association and ownership tracking
+ * - Project filtering by user and status
+ * - Color coding and visual customization support
+ * - Project status management (active, archived, completed)
+ * - Database-agnostic implementation
+ * 
+ * DATA FIELDS:
+ * - id: Unique project identifier (auto-generated)
+ * - user_id: Project owner/creator (foreign key to users)
+ * - name: Project name (required)
+ * - description: Project description (optional)
+ * - color: Project color code for UI customization (optional)
+ * - status: Project status (active, archived, completed)
+ * - created_at: Project creation timestamp
+ * - updated_at: Last modification timestamp
+ * 
+ * QUERY PARAMETERS:
+ * - user_id: Filter projects by specific user
+ * - status: Filter projects by status (active, archived, etc.)
+ * 
+ * SECURITY & VALIDATION:
+ * - User existence validation before project creation
+ * - Input sanitization and validation
+ * - Parameterized queries to prevent SQL injection
+ * - Proper error handling and HTTP status codes
+ * - Foreign key constraint enforcement
+ * 
+ * RESPONSE FORMAT:
+ * Success: { success: true, data: {...}, count?: number }
+ * Error: { success: false, error: "message" }
+ * 
+ * DATA RELATIONSHIPS:
+ * - Projects belong to users (many-to-one)
+ * - Projects contain tasks (one-to-many)
+ * - Includes user email in project responses via JOIN
+ * - Cascading delete for related tasks when project is deleted
+ * 
+ * HTTP STATUS CODES:
+ * - 200: Successful GET/PUT operations
+ * - 201: Successful POST (project created)
+ * - 400: Bad request (validation errors, user not found)
+ * - 404: Project not found
+ * - 500: Internal server error
+ */
+
 import express from 'express';
 import dbFactory from '../database/connectionFactory.js';
 

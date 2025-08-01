@@ -1,3 +1,55 @@
+/**
+ * TASKIFY BACKEND SERVER
+ * 
+ * Main Express.js server application for the Taskify task management system.
+ * This file sets up the core web server with comprehensive middleware, security,
+ * database connectivity, and RESTful API routing.
+ * 
+ * CORE FUNCTIONALITY:
+ * - Express.js web server configuration with production-ready middleware
+ * - Database-agnostic connection handling (PostgreSQL/SQLite support)
+ * - Automatic database migration system on server startup
+ * - RESTful API endpoints for users, projects, tasks, and time tracking
+ * - Security middleware including CORS, Helmet, rate limiting
+ * - Comprehensive error handling and graceful shutdown procedures
+ * - Health check endpoint for monitoring and load balancer integration
+ * 
+ * SECURITY FEATURES:
+ * - Helmet.js for HTTP security headers (XSS protection, content sniffing, etc.)
+ * - CORS configuration for cross-origin resource sharing
+ * - Rate limiting (100 requests per 15 minutes per IP by default)
+ * - Request body size limits (10MB max for file uploads)
+ * - Graceful error handling with proper HTTP status codes
+ * 
+ * DATABASE INTEGRATION:
+ * - Factory pattern for database abstraction (PostgreSQL/SQLite)
+ * - Automatic connection testing and health monitoring
+ * - Migration runner for database schema management
+ * - Connection pooling and optimization
+ * - Graceful database disconnection on server shutdown
+ * 
+ * API ENDPOINTS:
+ * - /api/users - User management (CRUD operations)
+ * - /api/projects - Project management and organization
+ * - /api/tasks - Task lifecycle management with status/priority tracking
+ * - /api/time-entries - Time tracking and reporting functionality
+ * - /health - Server and database health status
+ * 
+ * ENVIRONMENT CONFIGURATION:
+ * - PORT: Server port (default: 3001)
+ * - DB_TYPE: Database type ('postgresql' or 'sqlite')
+ * - CORS_ORIGIN: Allowed CORS origin (default: localhost:5173)
+ * - RATE_LIMIT_*: Rate limiting configuration
+ * - Database-specific environment variables
+ * 
+ * OPERATIONAL FEATURES:
+ * - Graceful shutdown handling (SIGINT/SIGTERM)
+ * - Unhandled promise rejection monitoring
+ * - Detailed console logging with emojis for better UX
+ * - Development vs production environment detection
+ * - Comprehensive error reporting and debugging
+ */
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';

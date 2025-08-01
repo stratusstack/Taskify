@@ -1,3 +1,57 @@
+/**
+ * CREATE TASK DIALOG - COMPREHENSIVE TASK CREATION INTERFACE
+ * 
+ * A sophisticated modal dialog for creating new tasks with full metadata support.
+ * This component provides a comprehensive form interface for task creation including
+ * scheduling, tagging, reminders, and dependency management.
+ * 
+ * CORE FEATURES:
+ * - Rich form interface with validation
+ * - Task metadata management (title, description, tags)
+ * - Status and priority selection with visual indicators
+ * - Date range selection for task scheduling
+ * - Time estimation and planning capabilities
+ * - Reminder system with date/time selection
+ * - Tag management with add/remove functionality
+ * - Dependency tracking and task relationships
+ * 
+ * FORM FIELDS:
+ * - title: Task title (required)
+ * - description: Detailed task description (optional)
+ * - status: Task status (to_do, in_progress, on_hold, done)
+ * - priority: Task priority (low, medium, high, critical)
+ * - startDate: Task start date
+ * - endDate: Task due date (optional)
+ * - totalHours: Estimated time for completion
+ * - tags: Array of categorization tags
+ * - reminders: Task reminder configuration
+ * 
+ * USER EXPERIENCE:
+ * - Modal dialog with backdrop overlay
+ * - Form validation and error handling
+ * - Interactive date/time pickers
+ * - Real-time tag management
+ * - Keyboard navigation support
+ * - Mobile-responsive design
+ * 
+ * VALIDATION:
+ * - Required field validation (title)
+ * - Date range validation (start <= end)
+ * - Time format validation for reminders
+ * - Tag duplication prevention
+ * 
+ * ACCESSIBILITY:
+ * - Proper ARIA labels and roles
+ * - Keyboard navigation support
+ * - Screen reader compatibility
+ * - Focus management for modal dialogs
+ * 
+ * INTEGRATION:
+ * - Seamless integration with task management system
+ * - Project association and validation
+ * - Calendar integration for date selection
+ * - Notification system for reminders
+ */
 
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';

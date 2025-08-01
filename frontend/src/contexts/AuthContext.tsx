@@ -1,3 +1,60 @@
+/**
+ * AUTHENTICATION CONTEXT - USER SESSION MANAGEMENT
+ * 
+ * Comprehensive authentication system for the Taskify application providing
+ * user session management, login/logout functionality, and profile management.
+ * This context manages global authentication state using React's useReducer.
+ * 
+ * CORE FUNCTIONALITY:
+ * - User authentication (login/logout/register)
+ * - Session persistence with localStorage
+ * - Profile management and updates
+ * - Authentication state management across the application
+ * - Loading states and error handling
+ * 
+ * STATE MANAGEMENT:
+ * - useReducer for predictable state updates
+ * - Actions: SET_LOADING, SET_USER, LOGOUT
+ * - Persistent session storage in localStorage
+ * - Automatic session restoration on app startup
+ * 
+ * AUTHENTICATION FEATURES:
+ * - Email/password authentication
+ * - User registration with validation
+ * - Secure password handling (excluded from stored user data)
+ * - Profile update capabilities
+ * - Session expiration handling
+ * 
+ * SECURITY CONSIDERATIONS:
+ * - Password data excluded from localStorage
+ * - Secure user data handling
+ * - Error message sanitization
+ * - Session validation and cleanup
+ * 
+ * API INTEGRATION:
+ * - Mock API for development and testing
+ * - Structured for easy backend integration
+ * - Async operation handling with proper loading states
+ * - Error handling with user-friendly messages
+ * 
+ * CONTEXT INTERFACE:
+ * - AuthState: user, isAuthenticated, isLoading
+ * - Methods: login, register, logout, updateProfile
+ * - Type-safe interfaces for all operations
+ * - Comprehensive error handling
+ * 
+ * USAGE PATTERN:
+ * - Wrap application with AuthProvider
+ * - Use useAuth hook to access authentication state
+ * - Automatic state updates across all components
+ * - Protected route integration support
+ * 
+ * TOAST NOTIFICATIONS:
+ * - Success/error feedback for auth operations
+ * - User-friendly error messages
+ * - Operation status communication
+ */
+
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { User, AuthState, LoginCredentials, RegisterCredentials, UpdateProfileData } from '@/types/auth';
 import { mockApi } from '@/data/mockData';

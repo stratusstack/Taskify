@@ -1,3 +1,57 @@
+/**
+ * TASKIFY MAIN APPLICATION COMPONENT
+ * 
+ * Root application component that configures the entire Taskify frontend application.
+ * This component sets up the application architecture including routing, state management,
+ * authentication, notifications, and UI provider contexts.
+ * 
+ * CORE ARCHITECTURE:
+ * - React Router for client-side navigation and routing
+ * - TanStack Query for server state management and caching
+ * - Authentication context for user session management
+ * - UI component providers for consistent theming and interactions
+ * - Toast notification system for user feedback
+ * 
+ * PROVIDER HIERARCHY:
+ * 1. QueryClientProvider - Server state and API caching
+ * 2. AuthProvider - User authentication and session management
+ * 3. TooltipProvider - UI tooltip system
+ * 4. BrowserRouter - Client-side routing
+ * 5. Toast/Notification providers - User feedback system
+ * 
+ * APPLICATION ROUTES:
+ * - / - Landing page and application entry point
+ * - /home - Dashboard and user home page
+ * - /auth - Authentication (login/register) interface
+ * - /profile - User profile management
+ * - /features - Application features showcase
+ * - /projects - Project management interface
+ * - /projects/:projectId/tasks - Task management for specific project
+ * - /reports - Analytics and reporting dashboard
+ * - /* - 404 Not Found catch-all route
+ * 
+ * STATE MANAGEMENT:
+ * - TanStack Query for server state, caching, and API management
+ * - React Context for authentication and global application state
+ * - Local component state for UI interactions
+ * - URL state for routing and navigation
+ * 
+ * UI FEATURES:
+ * - Dual toast notification system (UI Toaster + Sonner)
+ * - Tooltip system for enhanced user experience
+ * - Responsive design and mobile-friendly interface
+ * - Consistent component library (shadcn/ui)
+ * 
+ * SECURITY:
+ * - Authentication context for protected routes
+ * - User session management and persistence
+ * - Route protection and access control
+ * 
+ * PERFORMANCE:
+ * - React Query caching for optimized API calls
+ * - Lazy loading and code splitting support
+ * - Optimized re-rendering through provider structure
+ */
 
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";

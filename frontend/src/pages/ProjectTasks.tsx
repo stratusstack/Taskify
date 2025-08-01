@@ -1,3 +1,70 @@
+/**
+ * PROJECT TASKS PAGE - COMPREHENSIVE TASK MANAGEMENT INTERFACE
+ * 
+ * The central hub for project task management in the Taskify application.
+ * This page provides a comprehensive interface for managing tasks within a specific
+ * project, featuring multiple view modes, real-time collaboration, and advanced
+ * task management capabilities.
+ * 
+ * CORE FUNCTIONALITY:
+ * - Multi-view task display (table, kanban board, dependency graph)
+ * - Real-time task creation, editing, and status management
+ * - Advanced filtering and search capabilities
+ * - Time tracking with active timer management
+ * - Task activity logging and history tracking
+ * - Reminder and notification system
+ * - Calendar integration for deadline management
+ * - AI-powered image task extraction
+ * 
+ * VIEW MODES:
+ * 1. Table View - Detailed task list with sortable columns
+ * 2. Board View - Kanban-style status-based organization
+ * 3. Dependencies View - Visual task dependency mapping
+ * 4. Calendar View - Timeline and deadline visualization
+ * 
+ * KEY FEATURES:
+ * - Drag-and-drop task management
+ * - Configurable column display and layout
+ * - Real-time timer with automatic status updates
+ * - Advanced multi-criteria filtering system
+ * - Task activity tracking and note management
+ * - Reminder notifications with browser integration
+ * - Image upload and AI task extraction
+ * - Responsive design with sidebar navigation
+ * 
+ * STATE MANAGEMENT:
+ * - Project and task data through useProjectTasks hook
+ * - Real-time timer state management
+ * - Filter state for advanced search capabilities
+ * - Dialog state for various modal interactions
+ * - Column configuration for customizable views
+ * 
+ * DIALOG COMPONENTS:
+ * - CreateTaskDialog - New task creation interface
+ * - ProjectConfigDialog - View and column configuration
+ * - TaskActivityDialog - Activity history and note management
+ * - TaskFilterDialog - Advanced filtering interface
+ * - ProjectCalendarDialog - Calendar and timeline view
+ * - ImageUploadDialog - AI-powered task extraction from images
+ * 
+ * PERFORMANCE OPTIMIZATIONS:
+ * - Memoized task filtering and sorting
+ * - Callback optimization for event handlers
+ * - Efficient re-rendering through React hooks
+ * - Error boundary protection for stability
+ * 
+ * ACCESSIBILITY:
+ * - Keyboard navigation support
+ * - Screen reader compatibility
+ * - ARIA labels and semantic HTML
+ * - Focus management for dialogs
+ * 
+ * RESPONSIVE DESIGN:
+ * - Sidebar collapse/expand for mobile
+ * - Responsive table and board layouts
+ * - Touch-friendly interface elements
+ * - Mobile-optimized dialog interactions
+ */
 
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';

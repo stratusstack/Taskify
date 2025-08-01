@@ -1,3 +1,63 @@
+/**
+ * REMINDER NOTIFICATIONS HOOK - TASK REMINDER SYSTEM
+ * 
+ * Comprehensive task reminder system that provides real-time notification
+ * management for task deadlines and custom reminders. This hook integrates
+ * both browser notifications and in-app toast messages for maximum visibility.
+ * 
+ * CORE FUNCTIONALITY:
+ * - Real-time reminder monitoring and triggering
+ * - Browser notification integration with permission management
+ * - In-app toast notifications for immediate visibility
+ * - Automatic reminder cleanup and lifecycle management
+ * - Precise timing with minute-level accuracy
+ * 
+ * NOTIFICATION SYSTEM:
+ * - Dual notification approach (browser + in-app)
+ * - Automatic permission request for browser notifications
+ * - Fallback to toast notifications when browser notifications unavailable
+ * - Rich notification content with task context
+ * - Custom notification icons and branding
+ * 
+ * TIMING & ACCURACY:
+ * - Minute-level precision for reminder checking
+ * - Interval-based monitoring (every 60 seconds)
+ * - Immediate check on component mount
+ * - Time zone aware reminder processing
+ * - Drift correction for long-running sessions
+ * 
+ * REMINDER FEATURES:
+ * - Active reminder status checking
+ * - Custom reminder messages
+ * - Task context preservation
+ * - Multiple reminders per task support
+ * - Reminder deactivation after triggering
+ * 
+ * BROWSER INTEGRATION:
+ * - Native browser notification API
+ * - Permission state management
+ * - Icon and badge customization
+ * - Cross-browser compatibility
+ * - Mobile browser support
+ * 
+ * PERFORMANCE OPTIMIZATIONS:
+ * - Efficient task iteration and filtering
+ * - Memory cleanup on component unmount
+ * - Minimal DOM manipulation
+ * - Optimized timer management
+ * 
+ * ACCESSIBILITY:
+ * - Screen reader compatible notifications
+ * - High contrast notification styling
+ * - Keyboard dismissible notifications
+ * - Reduced motion support
+ * 
+ * USAGE PATTERN:
+ * - Hook integration in task management components
+ * - Automatic lifecycle management
+ * - No manual cleanup required
+ * - Real-time task array synchronization
+ */
 
 import { useEffect } from 'react';
 import { Task } from '@/types/task';

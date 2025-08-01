@@ -1,3 +1,52 @@
+/**
+ * DATABASE CONFIGURATION MODULE
+ * 
+ * Centralized database configuration management for the Taskify backend system.
+ * This module provides environment-based configuration for multiple database types
+ * with validation, security, and performance optimization settings.
+ * 
+ * SUPPORTED DATABASES:
+ * - PostgreSQL: Production-ready relational database with advanced features
+ * - SQLite: Lightweight embedded database perfect for development and testing
+ * 
+ * POSTGRESQL CONFIGURATION:
+ * - Connection pooling with configurable pool sizes
+ * - SSL support for secure connections
+ * - Connection timeout and idle timeout management
+ * - Environment-based credential management
+ * - Performance optimization settings
+ * 
+ * SQLITE CONFIGURATION:
+ * - File-based database with configurable path
+ * - Access mode control (readonly, readwrite, readwritecreate)
+ * - Development mode verbose logging
+ * - Automatic database file creation
+ * 
+ * ENVIRONMENT VARIABLES:
+ * - DB_TYPE: Database type selection ('postgresql' or 'sqlite')
+ * - POSTGRES_*: PostgreSQL connection parameters
+ * - SQLITE_*: SQLite configuration options
+ * - Security and performance tuning variables
+ * 
+ * SECURITY FEATURES:
+ * - Environment variable validation
+ * - Secure credential handling
+ * - SSL configuration for PostgreSQL
+ * - Connection parameter sanitization
+ * 
+ * VALIDATION SYSTEM:
+ * - Required configuration parameter checking
+ * - Database type validation
+ * - Missing credential detection
+ * - Configuration consistency verification
+ * 
+ * USAGE:
+ * - Import dbConfig for database connection parameters
+ * - Call validateConfig() before establishing connections
+ * - Environment variables override default values
+ * - Supports both development and production environments
+ */
+
 import dotenv from 'dotenv';
 
 dotenv.config();

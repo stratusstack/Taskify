@@ -1,3 +1,66 @@
+/**
+ * USER MANAGEMENT API ROUTES
+ * 
+ * RESTful API endpoints for user management in the Taskify system.
+ * This module provides comprehensive CRUD operations for user accounts
+ * with proper validation, security, and error handling.
+ * 
+ * ENDPOINT OVERVIEW:
+ * - GET    /api/users     - Retrieve all users (with pagination support)
+ * - GET    /api/users/:id - Retrieve specific user by ID
+ * - POST   /api/users     - Create new user account
+ * - PUT    /api/users/:id - Update existing user information
+ * - DELETE /api/users/:id - Delete user account
+ * 
+ * CORE FEATURES:
+ * - Full CRUD operations for user management
+ * - Input validation and sanitization
+ * - Database-agnostic queries through connection factory
+ * - Consistent JSON response formatting
+ * - Comprehensive error handling and HTTP status codes
+ * - Security-conscious password handling
+ * 
+ * DATA FIELDS:
+ * - id: Unique user identifier (auto-generated)
+ * - email: User email address (unique, required)
+ * - password_hash: Hashed password (required for creation)
+ * - first_name: User's first name (optional)
+ * - last_name: User's last name (optional)
+ * - is_active: Account status flag (default: true)
+ * - created_at: Account creation timestamp
+ * - updated_at: Last modification timestamp
+ * 
+ * SECURITY CONSIDERATIONS:
+ * - Password hashes only, never plain text passwords
+ * - Sensitive data excluded from response (password_hash)
+ * - Input validation to prevent injection attacks
+ * - Parameterized queries to prevent SQL injection
+ * - Proper error handling to avoid information leakage
+ * 
+ * VALIDATION RULES:
+ * - Email and password_hash required for creation
+ * - Email format validation (handled by database constraints)
+ * - Unique email enforcement
+ * - Optional field handling with COALESCE for updates
+ * 
+ * RESPONSE FORMAT:
+ * Success: { success: true, data: {...}, count?: number }
+ * Error: { success: false, error: "message" }
+ * 
+ * HTTP STATUS CODES:
+ * - 200: Successful GET/PUT operations
+ * - 201: Successful POST (user created)
+ * - 400: Bad request (validation errors)
+ * - 404: User not found
+ * - 500: Internal server error
+ * 
+ * DATABASE COMPATIBILITY:
+ * - Works with both PostgreSQL and SQLite
+ * - Uses parameterized queries for database agnostic operations
+ * - Handles database-specific return value differences
+ * - Proper transaction handling for data consistency
+ */
+
 import express from 'express';
 import dbFactory from '../database/connectionFactory.js';
 

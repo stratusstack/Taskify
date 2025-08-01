@@ -1,3 +1,80 @@
+/**
+ * TIME TRACKING API ROUTES
+ * 
+ * Comprehensive time tracking and logging system for the Taskify application.
+ * This module provides professional-grade time tracking capabilities with
+ * automatic timer management, duration calculation, and detailed reporting.
+ * 
+ * ENDPOINT OVERVIEW:
+ * - GET    /api/time-entries         - Retrieve time entries with filtering
+ * - GET    /api/time-entries/:id    - Retrieve specific time entry
+ * - POST   /api/time-entries        - Start new time tracking session
+ * - PUT    /api/time-entries/:id/stop - Stop active timer
+ * - PUT    /api/time-entries/:id    - Update time entry details
+ * - DELETE /api/time-entries/:id    - Delete time entry record
+ * 
+ * CORE FEATURES:
+ * - Real-time timer start/stop functionality
+ * - Automatic duration calculation in minutes
+ * - Multi-user time tracking with user isolation
+ * - Task-based time organization and reporting
+ * - Active timer detection and management
+ * - Comprehensive time entry metadata
+ * 
+ * DATA FIELDS:
+ * - id: Unique time entry identifier
+ * - task_id: Associated task (foreign key, required)
+ * - user_id: Time tracker user (foreign key, required)
+ * - start_time: Timer start timestamp (automatic)
+ * - end_time: Timer end timestamp (set on stop)
+ * - duration_minutes: Calculated duration (automatic)
+ * - description: Time entry description/notes (optional)
+ * - is_active: Timer status flag (1=running, 0=stopped)
+ * - created_at: Entry creation timestamp
+ * - updated_at: Last modification timestamp
+ * 
+ * ADVANCED FEATURES:
+ * - Automatic timer conflict resolution (stops other active timers)
+ * - Cross-table JOIN queries for rich data context
+ * - Task title, project name, and user email inclusion
+ * - Julian date calculation for precise duration tracking
+ * - Multi-dimensional filtering capabilities
+ * 
+ * TIMER MANAGEMENT:
+ * - Only one active timer per user at any time
+ * - Automatic stop of previous timers when starting new ones
+ * - Precise duration calculation using database timestamp functions
+ * - Real-time timer status tracking
+ * 
+ * QUERY PARAMETERS:
+ * - task_id: Filter entries by specific task
+ * - user_id: Filter entries by specific user
+ * - is_active: Filter active vs completed entries
+ * 
+ * VALIDATION & SECURITY:
+ * - Task and user existence validation before entry creation
+ * - Active timer verification for stop operations
+ * - Parameterized queries for SQL injection prevention
+ * - Proper foreign key constraint enforcement
+ * 
+ * RESPONSE FORMAT:
+ * Success: { success: true, data: {...}, count?: number }
+ * Error: { success: false, error: "message" }
+ * 
+ * BUSINESS LOGIC:
+ * - Prevents multiple simultaneous timers per user
+ * - Ensures data consistency across timer operations
+ * - Provides detailed context through table joins
+ * - Supports manual time entry editing and correction
+ * 
+ * HTTP STATUS CODES:
+ * - 200: Successful GET/PUT operations
+ * - 201: Successful POST (timer started)
+ * - 400: Bad request (validation errors)
+ * - 404: Time entry/task/user not found
+ * - 500: Internal server error
+ */
+
 import express from 'express';
 import dbFactory from '../database/connectionFactory.js';
 

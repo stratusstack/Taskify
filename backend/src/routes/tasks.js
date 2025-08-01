@@ -1,3 +1,76 @@
+/**
+ * TASK MANAGEMENT API ROUTES
+ * 
+ * Comprehensive RESTful API endpoints for task lifecycle management in the Taskify system.
+ * This module provides full CRUD operations for tasks with advanced features including
+ * status tracking, priority management, time estimation, and tag-based organization.
+ * 
+ * ENDPOINT OVERVIEW:
+ * - GET    /api/tasks     - Retrieve all tasks with advanced filtering
+ * - GET    /api/tasks/:id - Retrieve specific task by ID
+ * - POST   /api/tasks     - Create new task with full metadata
+ * - PUT    /api/tasks/:id - Update existing task properties
+ * - DELETE /api/tasks/:id - Delete task and associated data
+ * 
+ * CORE FEATURES:
+ * - Complete task lifecycle management (creation to completion)
+ * - Multi-dimensional filtering (project, status, priority)
+ * - Tag-based organization and categorization
+ * - Time estimation and actual hours tracking
+ * - Due date management and deadline tracking
+ * - Database-agnostic JSON tag storage
+ * - Project association and validation
+ * 
+ * DATA FIELDS:
+ * - id: Unique task identifier (auto-generated)
+ * - project_id: Associated project (foreign key, required)
+ * - title: Task title/summary (required)
+ * - description: Detailed task description (optional)
+ * - status: Task status (todo, in_progress, done, on_hold)
+ * - priority: Task priority (low, medium, high, critical)
+ * - due_date: Task deadline (ISO date string, optional)
+ * - estimated_hours: Time estimation for planning
+ * - actual_hours: Actual time spent (time tracking)
+ * - tags: Array of categorization tags (JSON stored)
+ * - created_at: Task creation timestamp
+ * - updated_at: Last modification timestamp
+ * 
+ * ADVANCED FEATURES:
+ * - Cross-database tag handling (JSON for SQLite, native for PostgreSQL)
+ * - Dynamic query building for flexible filtering
+ * - Project name inclusion via JOIN operations
+ * - Comprehensive validation and error handling
+ * - Time tracking integration
+ * 
+ * QUERY PARAMETERS:
+ * - project_id: Filter tasks by specific project
+ * - status: Filter by task status
+ * - priority: Filter by task priority
+ * 
+ * DATABASE COMPATIBILITY:
+ * - PostgreSQL: Native JSON column support for tags
+ * - SQLite: JSON string storage with automatic parsing
+ * - Unified API regardless of backend database
+ * - Proper data type handling for different databases
+ * 
+ * VALIDATION RULES:
+ * - project_id and title required for creation
+ * - Project existence validation before task creation
+ * - Status and priority default value handling
+ * - Optional field management with COALESCE updates
+ * 
+ * RESPONSE FORMAT:
+ * Success: { success: true, data: {...}, count?: number }
+ * Error: { success: false, error: "message" }
+ * 
+ * HTTP STATUS CODES:
+ * - 200: Successful GET/PUT operations
+ * - 201: Successful POST (task created)
+ * - 400: Bad request (validation errors, project not found)
+ * - 404: Task not found
+ * - 500: Internal server error
+ */
+
 import express from 'express';
 import dbFactory from '../database/connectionFactory.js';
 import { dbConfig } from '../config/database.js';
