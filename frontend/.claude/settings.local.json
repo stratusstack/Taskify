@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/johneipe/Documents/CodeWorkspace/PersonalProjects/taskify/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

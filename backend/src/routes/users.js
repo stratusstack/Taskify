@@ -1,195 +1,157 @@
-/**
- * USER MANAGEMENT API ROUTES
- * 
- * RESTful API endpoints for user management in the Taskify system.
- * This module provides comprehensive CRUD operations for user accounts
- * with proper validation, security, and error handling.
- * 
- * ENDPOINT OVERVIEW:
- * - GET    /api/users     - Retrieve all users (with pagination support)
- * - GET    /api/users/:id - Retrieve specific user by ID
- * - POST   /api/users     - Create new user account
- * - PUT    /api/users/:id - Update existing user information
- * - DELETE /api/users/:id - Delete user account
- * 
- * CORE FEATURES:
- * - Full CRUD operations for user management
- * - Input validation and sanitization
- * - Database-agnostic queries through connection factory
- * - Consistent JSON response formatting
- * - Comprehensive error handling and HTTP status codes
- * - Security-conscious password handling
- * 
- * DATA FIELDS:
- * - id: Unique user identifier (auto-generated)
- * - email: User email address (unique, required)
- * - password_hash: Hashed password (required for creation)
- * - first_name: User's first name (optional)
- * - last_name: User's last name (optional)
- * - is_active: Account status flag (default: true)
- * - created_at: Account creation timestamp
- * - updated_at: Last modification timestamp
- * 
- * SECURITY CONSIDERATIONS:
- * - Password hashes only, never plain text passwords
- * - Sensitive data excluded from response (password_hash)
- * - Input validation to prevent injection attacks
- * - Parameterized queries to prevent SQL injection
- * - Proper error handling to avoid information leakage
- * 
- * VALIDATION RULES:
- * - Email and password_hash required for creation
- * - Email format validation (handled by database constraints)
- * - Unique email enforcement
- * - Optional field handling with COALESCE for updates
- * 
- * RESPONSE FORMAT:
- * Success: { success: true, data: {...}, count?: number }
- * Error: { success: false, error: "message" }
- * 
- * HTTP STATUS CODES:
- * - 200: Successful GET/PUT operations
- * - 201: Successful POST (user created)
- * - 400: Bad request (validation errors)
- * - 404: User not found
- * - 500: Internal server error
- * 
- * DATABASE COMPATIBILITY:
- * - Works with both PostgreSQL and SQLite
- * - Uses parameterized queries for database agnostic operations
- * - Handles database-specific return value differences
- * - Proper transaction handling for data consistency
- */
+import express from 'express'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import { v4 as uuidv4 } from 'uuid'
+import dbFactory from '../database/connectionFactory.js'
+import { dbConfig } from '../config/database.js'
+import { logAuth } from '../middleware/logger.js'
+import { userValidation } from '../middleware/validation.js'
 
-import express from 'express';
-import dbFactory from '../database/connectionFactory.js';
+const router = express.Router()
 
-const router = express.Router();
-
-// GET /api/users - Get all users
-router.get('/', async (req, res, next) => {
+// Register new user
+router.post('/register', userValidation.register, async (req, res, next) => {
   try {
-    const db = dbFactory.getConnection();
-    const result = await db.query('SELECT id, email, first_name, last_name, is_active, created_at FROM users ORDER BY created_at DESC');
-    
-    res.json({
-      success: true,
-      data: result.rows,
-      count: result.rows.length
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+    const { username, email, password } = req.body
 
-// GET /api/users/:id - Get user by ID
-router.get('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const db = dbFactory.getConnection();
+    const db = await dbFactory.getConnection()
     
-    const result = await db.query(
-      'SELECT id, email, first_name, last_name, is_active, created_at FROM users WHERE id = ?',
-      [id]
-    );
-    
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        error: 'User not found'
-      });
+    // Check if user already exists
+    const existingUsers = await db.query(
+      'SELECT id FROM users WHERE username = ? OR email = ?',
+      [username, email]
+    )
+
+    if (existingUsers.length > 0) {
+      logAuth('REGISTRATION', null, false, `Username/email already exists: ${username}`)
+      return res.status(409).json({ 
+        error: 'User with this username or email already exists' 
+      })
     }
-    
-    res.json({
-      success: true,
-      data: result.rows[0]
-    });
-  } catch (error) {
-    next(error);
-  }
-});
 
-// POST /api/users - Create new user
-router.post('/', async (req, res, next) => {
-  try {
-    const { email, password_hash, first_name, last_name } = req.body;
-    
-    if (!email || !password_hash) {
-      return res.status(400).json({
-        success: false,
-        error: 'Email and password_hash are required'
-      });
-    }
-    
-    const db = dbFactory.getConnection();
+    // Hash password
+    const saltRounds = 12
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+
+    // Create user
     const result = await db.query(
-      'INSERT INTO users (email, password_hash, first_name, last_name) VALUES (?, ?, ?, ?) RETURNING id, email, first_name, last_name, created_at',
-      [email, password_hash, first_name || null, last_name || null]
-    );
+      'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
+      [username, email, hashedPassword]
+    )
+
+    // Generate JWT token
+    const userId = result.lastID || result.rows[0]?.id
+    const token = jwt.sign(
+      { userId, username, email },
+      dbConfig.jwt.secret,
+      { expiresIn: dbConfig.jwt.expiresIn }
+    )
+
+    logAuth('REGISTRATION', userId, true, `New user: ${username}`)
     
     res.status(201).json({
-      success: true,
-      data: result.rows[0] || { id: result.lastID, email, first_name, last_name }
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+      message: 'User created successfully',
+      token,
+      user: { id: userId, username, email }
+    })
 
-// PUT /api/users/:id - Update user
-router.put('/:id', async (req, res, next) => {
+  } catch (error) {
+    next(error)
+  }
+})
+
+// Login user
+router.post('/login', userValidation.login, async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const { email, first_name, last_name, is_active } = req.body;
+    const { username, password } = req.body
+
+    const db = await dbFactory.getConnection()
     
-    const db = dbFactory.getConnection();
-    
-    // Check if user exists
-    const userCheck = await db.query('SELECT id FROM users WHERE id = ?', [id]);
-    if (userCheck.rows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        error: 'User not found'
-      });
+    // Find user
+    const users = await db.query(
+      'SELECT id, username, email, password_hash FROM users WHERE username = ? OR email = ?',
+      [username, username]
+    )
+
+    if (users.length === 0) {
+      logAuth('LOGIN', null, false, `User not found: ${username}`)
+      return res.status(401).json({ error: 'Invalid credentials' })
     }
-    
-    // Update user
-    const result = await db.query(
-      'UPDATE users SET email = COALESCE(?, email), first_name = COALESCE(?, first_name), last_name = COALESCE(?, last_name), is_active = COALESCE(?, is_active), updated_at = CURRENT_TIMESTAMP WHERE id = ? RETURNING id, email, first_name, last_name, is_active, updated_at',
-      [email || null, first_name || null, last_name || null, is_active !== undefined ? is_active : null, id]
-    );
+
+    const user = users[0]
+
+    // Verify password
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash)
+    if (!isPasswordValid) {
+      logAuth('LOGIN', user.id, false, `Invalid password for: ${username}`)
+      return res.status(401).json({ error: 'Invalid credentials' })
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user.id, username: user.username, email: user.email },
+      dbConfig.jwt.secret,
+      { expiresIn: dbConfig.jwt.expiresIn }
+    )
+
+    logAuth('LOGIN', user.id, true, `Successful login: ${username}`)
     
     res.json({
-      success: true,
-      data: result.rows[0] || { id, email, first_name, last_name, is_active }
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+      message: 'Login successful',
+      token,
+      user: { 
+        id: user.id, 
+        username: user.username, 
+        email: user.email 
+      }
+    })
 
-// DELETE /api/users/:id - Delete user
-router.delete('/:id', async (req, res, next) => {
+  } catch (error) {
+    next(error)
+  }
+})
+
+// Get user profile
+router.get('/profile', authenticateToken, async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const db = dbFactory.getConnection();
+    const db = await dbFactory.getConnection()
     
-    const result = await db.query('DELETE FROM users WHERE id = ?', [id]);
-    
-    if (result.rowCount === 0) {
-      return res.status(404).json({
-        success: false,
-        error: 'User not found'
-      });
-    }
-    
-    res.json({
-      success: true,
-      message: 'User deleted successfully'
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+    const users = await db.query(
+      'SELECT id, username, email, created_at FROM users WHERE id = ?',
+      [req.user.userId]
+    )
 
-export default router;
+    if (users.length === 0) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+
+    res.json(users[0])
+
+  } catch (error) {
+    next(error)
+  }
+})
+
+// Middleware to authenticate JWT token
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (!token) {
+    logAuth('TOKEN_VALIDATION', null, false, 'Missing access token')
+    return res.status(401).json({ error: 'Access token required' })
+  }
+
+  jwt.verify(token, dbConfig.jwt.secret, (err, user) => {
+    if (err) {
+      logAuth('TOKEN_VALIDATION', null, false, `Token validation failed: ${err.message}`)
+      return res.status(403).json({ error: 'Invalid or expired token' })
+    }
+    logAuth('TOKEN_VALIDATION', user.userId, true, `Valid token for: ${user.username}`)
+    req.user = user
+    next()
+  })
+}
+
+export { authenticateToken }
+export default router

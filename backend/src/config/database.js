@@ -1,92 +1,42 @@
-/**
- * DATABASE CONFIGURATION MODULE
- * 
- * Centralized database configuration management for the Taskify backend system.
- * This module provides environment-based configuration for multiple database types
- * with validation, security, and performance optimization settings.
- * 
- * SUPPORTED DATABASES:
- * - PostgreSQL: Production-ready relational database with advanced features
- * - SQLite: Lightweight embedded database perfect for development and testing
- * 
- * POSTGRESQL CONFIGURATION:
- * - Connection pooling with configurable pool sizes
- * - SSL support for secure connections
- * - Connection timeout and idle timeout management
- * - Environment-based credential management
- * - Performance optimization settings
- * 
- * SQLITE CONFIGURATION:
- * - File-based database with configurable path
- * - Access mode control (readonly, readwrite, readwritecreate)
- * - Development mode verbose logging
- * - Automatic database file creation
- * 
- * ENVIRONMENT VARIABLES:
- * - DB_TYPE: Database type selection ('postgresql' or 'sqlite')
- * - POSTGRES_*: PostgreSQL connection parameters
- * - SQLITE_*: SQLite configuration options
- * - Security and performance tuning variables
- * 
- * SECURITY FEATURES:
- * - Environment variable validation
- * - Secure credential handling
- * - SSL configuration for PostgreSQL
- * - Connection parameter sanitization
- * 
- * VALIDATION SYSTEM:
- * - Required configuration parameter checking
- * - Database type validation
- * - Missing credential detection
- * - Configuration consistency verification
- * 
- * USAGE:
- * - Import dbConfig for database connection parameters
- * - Call validateConfig() before establishing connections
- * - Environment variables override default values
- * - Supports both development and production environments
- */
+import dotenv from 'dotenv'
 
-import dotenv from 'dotenv';
-
-dotenv.config();
+dotenv.config()
 
 export const dbConfig = {
-  type: process.env.DB_TYPE || 'sqlite', // 'postgresql' or 'sqlite'
-  
-  // PostgreSQL configuration
+  type: process.env.DB_TYPE || 'sqlite',
   postgresql: {
-    host: process.env.POSTGRES_HOST || 'localhost',
-    port: process.env.POSTGRES_PORT || 5432,
-    database: process.env.POSTGRES_DB || 'taskify',
-    user: process.env.POSTGRES_USER || 'postgres',
-    password: process.env.POSTGRES_PASSWORD || 'password',
-    ssl: process.env.POSTGRES_SSL === 'true',
-    max: parseInt(process.env.POSTGRES_POOL_MAX) || 20,
-    idleTimeoutMillis: parseInt(process.env.POSTGRES_IDLE_TIMEOUT) || 30000,
-    connectionTimeoutMillis: parseInt(process.env.POSTGRES_CONNECTION_TIMEOUT) || 2000,
+    host: process.env.PG_HOST || 'localhost',
+    port: process.env.PG_PORT || 5432,
+    database: process.env.PG_DATABASE || 'taskify',
+    user: process.env.PG_USER || 'postgres',
+    password: process.env.PG_PASSWORD
   },
-  
-  // SQLite configuration
   sqlite: {
-    filename: process.env.SQLITE_PATH || './database.sqlite',
-    mode: process.env.SQLITE_MODE || 'readwrite', // 'readonly', 'readwrite', 'readwritecreate'
-    verbose: process.env.NODE_ENV === 'development'
-  }
-};
+    filename: (() => {
+      if (process.env.SQLITE_DB) {
+        return process.env.SQLITE_DB;
+      }
 
-export const validateConfig = () => {
-  if (!['postgresql', 'sqlite'].includes(dbConfig.type)) {
-    throw new Error(`Unsupported database type: ${dbConfig.type}. Use 'postgresql' or 'sqlite'.`);
+      if (typeof window !== 'undefined' && window.electronAPI) {
+        const { app } = require('electron');
+        const path = require('path');
+        return path.join(app.getPath('userData'), 'taskify.sqlite');
+      }
+
+      return './database.sqlite';
+    })(),
+    verbose: process.env.NODE_ENV === 'development'
+  },
+  jwt: {
+    secret: (() => {
+      const secret = process.env.JWT_SECRET
+      if (!secret) {
+        console.error('CRITICAL ERROR: JWT_SECRET environment variable is not set!')
+        console.error('Please set JWT_SECRET to a secure random string in your environment.')
+        process.exit(1)
+      }
+      return secret
+    })(),
+    expiresIn: process.env.JWT_EXPIRES_IN || '7d'
   }
-  
-  if (dbConfig.type === 'postgresql') {
-    const required = ['host', 'database', 'user', 'password'];
-    const missing = required.filter(key => !dbConfig.postgresql[key]);
-    if (missing.length > 0) {
-      throw new Error(`Missing PostgreSQL configuration: ${missing.join(', ')}`);
-    }
-  }
-  
-  return true;
-};
+}

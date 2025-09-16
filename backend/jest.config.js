@@ -1,15 +1,19 @@
 export default {
-  preset: null,
   testEnvironment: 'node',
+  transform: {},
   testMatch: [
-    '**/tests/**/*.test.js'
+    '**/__tests__/**/*.js',
+    '**/?(*.)+(spec|test).js'
   ],
   collectCoverageFrom: [
     'src/**/*.js',
     '!src/server.js',
-    '!src/**/*.test.js'
+    '!src/database/migrations/**',
+    '!**/node_modules/**'
   ],
-  coverageDirectory: 'coverage',
+  setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],
   testTimeout: 10000,
-  transform: {}
-};
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1'
+  }
+}

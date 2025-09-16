@@ -1,120 +1,54 @@
-/**
- * CENTRALIZED ERROR HANDLING MIDDLEWARE
- * 
- * Express.js error handling middleware for the Taskify backend system.
- * This module provides comprehensive error processing, logging, and response
- * formatting for both database and application errors across all endpoints.
- * 
- * CORE FUNCTIONALITY:
- * - Centralized error processing for consistent error responses
- * - Database-specific error code translation to user-friendly messages
- * - Security-conscious error message sanitization
- * - Development vs production error detail handling
- * - Request context preservation for debugging
- * 
- * SUPPORTED ERROR TYPES:
- * - PostgreSQL constraint violations and database errors
- * - SQLite constraint and integrity errors
- * - Mongoose validation and casting errors (future compatibility)
- * - Application-level business logic errors
- * - HTTP client errors (400-series)
- * - Server internal errors (500-series)
- * 
- * DATABASE ERROR HANDLING:
- * PostgreSQL Errors:
- * - 23505 (unique_violation): Duplicate entry detection
- * - 23503 (foreign_key_violation): Invalid reference handling
- * - Connection and query timeout errors
- * 
- * SQLite Errors:
- * - SQLITE_CONSTRAINT_UNIQUE: Duplicate entry detection
- * - SQLITE_CONSTRAINT_FOREIGNKEY: Invalid reference handling
- * - File system and permission errors
- * 
- * SECURITY FEATURES:
- * - Sensitive information filtering from error messages
- * - Stack trace exposure only in development environment
- * - SQL injection attempt detection and logging
- * - Error message sanitization to prevent information leakage
- * 
- * RESPONSE FORMATTING:
- * - Consistent JSON error response structure
- * - HTTP status code standardization
- * - Success/failure boolean indicators
- * - User-friendly error messages
- * - Optional technical details for debugging
- * 
- * LOGGING AND MONITORING:
- * - Comprehensive error logging for debugging
- * - Error context preservation (request details)
- * - Error pattern detection for system monitoring
- * - Performance impact tracking
- * 
- * DEVELOPMENT FEATURES:
- * - Full stack trace exposure in development mode
- * - Detailed error context for debugging
- * - Request parameter logging for troubleshooting
- * - Enhanced error messages for faster development
- * 
- * PRODUCTION SAFEGUARDS:
- * - Sanitized error messages to prevent information disclosure
- * - Stack trace suppression for security
- * - Generic error messages for unknown errors
- * - Monitoring-friendly error codes
- */
+import { logError } from './logger.js'
 
 const errorHandler = (err, req, res, next) => {
-  let error = { ...err };
-  error.message = err.message;
+  logError(err, `${req.method} ${req.originalUrl} - ${req.ip}`)
 
-  // Log error
-  console.error(err);
-
-  // Mongoose bad ObjectId
-  if (err.name === 'CastError') {
-    const message = 'Resource not found';
-    error = { message, statusCode: 404 };
+  // Default error
+  let error = {
+    status: err.status || 500,
+    message: err.message || 'Internal Server Error'
   }
 
-  // Mongoose duplicate key
-  if (err.code === 11000) {
-    const message = 'Duplicate field value entered';
-    error = { message, statusCode: 400 };
-  }
-
-  // Mongoose validation error
+  // Validation errors
   if (err.name === 'ValidationError') {
-    const message = Object.values(err.errors).map(val => val.message);
-    error = { message, statusCode: 400 };
+    error.status = 400
+    error.message = 'Validation Error'
+    error.details = Object.values(err.errors).map(val => val.message)
   }
 
-  // PostgreSQL errors
-  if (err.code === '23505') { // unique_violation
-    const message = 'Duplicate entry found';
-    error = { message, statusCode: 400 };
+  // JWT errors
+  if (err.name === 'JsonWebTokenError') {
+    error.status = 401
+    error.message = 'Invalid token'
   }
 
-  if (err.code === '23503') { // foreign_key_violation
-    const message = 'Invalid reference to related resource';
-    error = { message, statusCode: 400 };
+  if (err.name === 'TokenExpiredError') {
+    error.status = 401
+    error.message = 'Token expired'
   }
 
-  // SQLite errors
-  if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-    const message = 'Duplicate entry found';
-    error = { message, statusCode: 400 };
+  // Database errors
+  if (err.code === 'SQLITE_CONSTRAINT' || err.code === '23505') {
+    error.status = 409
+    error.message = 'Resource already exists'
   }
 
-  if (err.code === 'SQLITE_CONSTRAINT_FOREIGNKEY') {
-    const message = 'Invalid reference to related resource';
-    error = { message, statusCode: 400 };
+  if (err.code === 'SQLITE_CONSTRAINT_FOREIGNKEY' || err.code === '23503') {
+    error.status = 400
+    error.message = 'Invalid reference to related resource'
   }
 
-  res.status(error.statusCode || 500).json({
-    success: false,
-    error: error.message || 'Server Error',
+  // Don't leak error details in production
+  if (process.env.NODE_ENV === 'production' && error.status >= 500) {
+    error.message = 'Internal Server Error'
+    delete error.details
+  }
+
+  res.status(error.status).json({
+    error: error.message,
+    ...(error.details && { details: error.details }),
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-  });
-};
+  })
+}
 
-export default errorHandler;
+export default errorHandler

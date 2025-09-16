@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(npx:*)",
+      "Bash(curl:*)",
+      "Bash(sed:*)",
+      "Bash(find:*)",
+      "Bash(npm install:*)"
     ],
     "deny": []
   }
