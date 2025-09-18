@@ -34,7 +34,7 @@ export function DeleteDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] brutalist-card">
+      <DialogContent className="sm:max-w-[425px] professional-card">
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
             <div className="w-12 h-12 bg-destructive/10 flex items-center justify-center">
@@ -60,7 +60,7 @@ export function DeleteDialog({
             type="button" 
             variant="outline" 
             onClick={() => onOpenChange(false)}
-            className="brutalist-btn"
+            className="professional-btn"
             disabled={loading}
           >
             Cancel
@@ -70,7 +70,7 @@ export function DeleteDialog({
             variant="destructive"
             onClick={handleConfirm}
             disabled={loading}
-            className="brutalist-btn"
+            className="professional-btn"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Delete

@@ -141,7 +141,7 @@ MYSQL_PASSWORD=your_password
 - **CORS Protection**: Configured for production
 
 ### Design System
-- **New-Brutalism Style**: Bold, vivid colors with high contrast. Create an intentionally "undesigned" aesthetic with raw typography and slightly asymmetrical layouts. Buttons should have thick borders and strong color contrast. Avoid gradients and subtle shadows in favor of stark, bold design elements.
+- **New-Professional Style**: Bold, vivid colors with high contrast. Create an intentionally "undesigned" aesthetic with raw typography and slightly asymmetrical layouts. Buttons should have thick borders and strong color contrast. Avoid gradients and subtle shadows in favor of stark, bold design elements.
 - **Three Theme Options**: 
   - 🌈 **Neon Cyber**: Blue Violet, Dark Turquoise, Yellow - Electric cyberpunk aesthetic
   - 📖 **Readable**: High contrast navy and blue tones - Optimal for readability and focus

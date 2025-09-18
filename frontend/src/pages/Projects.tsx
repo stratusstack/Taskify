@@ -196,7 +196,7 @@ export default function Projects() {
         {/* Header */}
         <div className="flex flex-col gap-6 mb-8">
           {isDemoMode && (
-            <div className="bg-accent/10 border-2 border-accent  p-4">
+            <div className="bg-accent/10 border border-accent  p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="h-5 w-5 text-accent" />
                 <span className="font-bold text-accent">Demo Mode</span>
@@ -220,7 +220,7 @@ export default function Projects() {
             
             <Button 
               onClick={() => setProjectDialogOpen(true)}
-              className="brutalist-btn"
+              className="professional-btn"
               disabled={isDemoMode}
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -236,13 +236,13 @@ export default function Projects() {
                 placeholder="Search projects..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 brutalist-shadow-sm"
+                className="pl-10 professional-shadow-sm"
               />
             </div>
             
             <div className="flex gap-2">
               <Select value={filterStatus} onValueChange={(value: any) => setFilterStatus(value)}>
-                <SelectTrigger className="w-[140px] brutalist-shadow-sm">
+                <SelectTrigger className="w-[140px] professional-shadow-sm">
                   <Filter className="h-4 w-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>
@@ -289,7 +289,7 @@ export default function Projects() {
                     setSearchQuery('')
                     setFilterStatus('all')
                   }}
-                  className="brutalist-btn"
+                  className="professional-btn"
                 >
                   Clear Filters
                 </Button>
@@ -303,7 +303,7 @@ export default function Projects() {
                 </p>
                 <Button 
                   onClick={() => setProjectDialogOpen(true)}
-                  className="brutalist-btn"
+                  className="professional-btn"
                   disabled={isDemoMode}
                 >
                   <Plus className="h-4 w-4 mr-2" />

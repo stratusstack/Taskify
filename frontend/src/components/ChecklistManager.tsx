@@ -14,7 +14,6 @@ import { toast } from 'sonner'
 import {
   Plus,
   X,
-  GripVertical,
   Loader2,
   CheckCircle2
 } from 'lucide-react'
@@ -34,7 +33,6 @@ export function ChecklistManager({
 }: ChecklistManagerProps) {
   const [items, setItems] = useState<ChecklistItem[]>(checklistItems)
   const [newItemText, setNewItemText] = useState('')
-  const [loading, setLoading] = useState(false)
   const [addingItem, setAddingItem] = useState(false)
 
   useEffect(() => {
@@ -110,7 +108,7 @@ export function ChecklistManager({
   const progressPercentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
 
   return (
-    <Card className="brutalist-card">
+    <Card className="professional-card">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg flex items-center gap-2">
@@ -132,14 +130,14 @@ export function ChecklistManager({
             value={newItemText}
             onChange={(e) => setNewItemText(e.target.value)}
             onKeyPress={handleKeyPress}
-            className="brutalist-shadow-sm text-xs h-8"
+            className="professional-shadow-sm text-xs h-8"
             disabled={addingItem}
           />
           <Button
             onClick={handleAddItem}
             disabled={!newItemText.trim() || addingItem}
             size="sm"
-            className="brutalist-btn h-8 w-8 p-0"
+            className="professional-btn h-8 w-8 p-0"
           >
             {addingItem ? (
               <Loader2 className="h-3 w-3 animate-spin" />

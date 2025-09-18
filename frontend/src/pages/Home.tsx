@@ -64,11 +64,11 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <ThemeSwitcher />
             {user ? (
-              <Button asChild className="brutalist-btn">
+              <Button asChild className="professional-btn">
                 <Link to="/projects">Dashboard</Link>
               </Button>
             ) : (
-              <Button asChild className="brutalist-btn">
+              <Button asChild className="professional-btn">
                 <Link to="/login">Get Started</Link>
               </Button>
             )}
@@ -96,19 +96,19 @@ export default function Home() {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             {user ? (
-              <Button asChild size="lg" className="brutalist-btn text-lg px-8">
+              <Button asChild size="lg" className="professional-btn text-lg px-8">
                 <Link to="/projects">
                   Go to Dashboard <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             ) : (
               <>
-                <Button asChild size="lg" className="brutalist-btn text-lg px-8">
+                <Button asChild size="lg" className="professional-btn text-lg px-8">
                   <Link to="/login">
                     Get Started Free <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="brutalist-btn text-lg px-8">
+                <Button asChild variant="outline" size="lg" className="professional-btn text-lg px-8">
                   <Link to="/projects?demo=true">View Demo</Link>
                 </Button>
               </>
@@ -138,7 +138,7 @@ export default function Home() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
-              <Card key={index} className="brutalist-card">
+              <Card key={index} className="professional-card">
                 <CardHeader>
                   <div className="w-12 h-12 bg-primary/10  flex items-center justify-center mb-4">
                     <feature.icon className="h-6 w-6 text-primary" />
@@ -157,7 +157,7 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto text-center">
-          <Card className="brutalist-card max-w-2xl mx-auto">
+          <Card className="professional-card max-w-2xl mx-auto">
             <CardContent className="p-12">
               <h3 className="text-3xl font-bold mb-4">Ready to Get Started?</h3>
               <p className="text-muted-foreground mb-8">
@@ -165,19 +165,19 @@ export default function Home() {
               </p>
               
               {user ? (
-                <Button asChild size="lg" className="brutalist-btn text-lg px-8">
+                <Button asChild size="lg" className="professional-btn text-lg px-8">
                   <Link to="/projects">
                     Open Dashboard <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
               ) : (
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button asChild size="lg" className="brutalist-btn text-lg px-8">
+                  <Button asChild size="lg" className="professional-btn text-lg px-8">
                     <Link to="/login">
                       Create Free Account <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="lg" className="brutalist-btn text-lg px-8">
+                  <Button asChild variant="outline" size="lg" className="professional-btn text-lg px-8">
                     <Link to="/projects?demo=true">Try Demo</Link>
                   </Button>
                 </div>

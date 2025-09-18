@@ -24,7 +24,7 @@
     --border: 271 76% 45%;
     --input: 271 26% 25%;
     --ring: 271 76% 53%;
-    --radius: 0rem;
+    --radius: 0.5rem;
   }
 
 
@@ -49,7 +49,7 @@
     --border: 214 32% 73%;
     --input: 214 32% 91%;
     --ring: 210 100% 20%;
-    --radius: 0rem;
+    --radius: 0.5rem;
   }
 
   /* Monokai Theme - Dark background with vibrant syntax highlighting colors */
@@ -73,7 +73,7 @@
     --border: 55 8% 35%;
     --input: 55 8% 25%;
     --ring: 81 100% 61%;
-    --radius: 0rem;
+    --radius: 0.5rem;
   }
 
   /* Professional Theme - Clean enterprise colors inspired by Jira and modern project management tools */
@@ -97,7 +97,7 @@
     --border: 213 13% 85%;
     --input: 213 13% 97%;
     --ring: 213 100% 40%;
-    --radius: 0rem;
+    --radius: 0.5rem;
   }
 }
 
@@ -112,49 +112,62 @@
     line-height: 1.5;
   }
 
-  /* New-Brutalism Typography */
+  /* Professional Typography */
   h1, h2, h3, h4, h5, h6 {
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
   }
 
-  h1 { font-size: clamp(2rem, 4vw, 3rem); }
-  h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
-  h3 { font-size: clamp(1.25rem, 2.5vw, 1.875rem); }
+  h1 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); }
+  h2 { font-size: clamp(1.5rem, 2.75vw, 2rem); }
+  h3 { font-size: clamp(1.25rem, 2.25vw, 1.75rem); }
 }
 
 @layer components {
-  /* Brutalist shadows and borders */
-  .brutalist-shadow {
-    box-shadow: 0 0 0 3px hsl(var(--border)), 4px 4px 0 0 hsl(var(--primary));
+  /* Professional shadows and borders */
+  .professional-shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   }
 
-  .brutalist-shadow-sm {
-    box-shadow: 0 0 0 2px hsl(var(--border)), 2px 2px 0 0 hsl(var(--primary));
+  .professional-shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   }
 
-  .brutalist-card {
-    @apply bg-card border-2 border-border brutalist-shadow;
-    transition: transform 0.1s ease;
+  .professional-card {
+    @apply bg-card border border-border professional-shadow rounded-lg;
+    transition: all 0.2s ease;
   }
 
-  .brutalist-card:hover:not([role="dialog"]):not([data-state]) {
-    transform: translate(-2px, -2px);
+  .professional-card:hover:not([role="dialog"]):not([data-state]) {
+    @apply professional-shadow-lg;
   }
 
-  .brutalist-btn {
-    @apply font-bold border-2 border-border brutalist-shadow-sm;
-    transition: transform 0.1s ease;
+  .professional-shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
 
-  .brutalist-btn:hover {
-    transform: translate(-1px, -1px);
+  .professional-btn {
+    @apply font-medium border border-border professional-shadow-sm rounded-md;
+    transition: all 0.2s ease;
   }
 
-  .brutalist-btn:active {
-    transform: translate(1px, 1px);
-    box-shadow: 0 0 0 2px hsl(var(--border));
+  .professional-btn:hover {
+    @apply professional-shadow;
+  }
+
+  .professional-btn:active {
+    @apply professional-shadow-sm;
+    transform: translateY(1px);
+  }
+
+  .professional-input {
+    @apply bg-input border border-border professional-shadow-sm rounded-md;
+    transition: all 0.2s ease;
+  }
+
+  .professional-input:focus {
+    @apply ring-2 ring-ring ring-offset-2 border-primary;
   }
 
   /* Theme-specific accents */
@@ -180,13 +193,13 @@
   }
 
   /* Progress Wave Animation for In Progress Tasks */
-  .brutalist-card.task-wave-active {
+  .professional-card.task-wave-active {
     position: relative;
     overflow: hidden !important;
   }
 
   /* Neon Theme Wave */
-  .theme-neon .brutalist-card.task-wave-active::before {
+  .theme-neon .professional-card.task-wave-active::before {
     content: '';
     position: absolute;
     top: 0;
@@ -207,7 +220,7 @@
   }
 
   /* Readable Theme Wave */
-  .theme-readable .brutalist-card.task-wave-active::before {
+  .theme-readable .professional-card.task-wave-active::before {
     content: '';
     position: absolute;
     top: 0;
@@ -228,7 +241,7 @@
   }
 
   /* Monokai Theme Wave */
-  .theme-natural .brutalist-card.task-wave-active::before {
+  .theme-natural .professional-card.task-wave-active::before {
     content: '';
     position: absolute;
     top: 0;
@@ -249,7 +262,7 @@
   }
 
   /* Professional Theme Wave */
-  .theme-professional .brutalist-card.task-wave-active::before {
+  .theme-professional .professional-card.task-wave-active::before {
     content: '';
     position: absolute;
     top: 0;
@@ -269,7 +282,7 @@
     border-radius: inherit;
   }
 
-  .brutalist-card.task-wave-active > * {
+  .professional-card.task-wave-active > * {
     position: relative;
     z-index: 2;
   }

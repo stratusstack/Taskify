@@ -351,7 +351,7 @@ export default function Tasks() {
         {/* Header */}
         <div className="flex flex-col gap-6 mb-8">
           {isDemoMode && (
-            <div className="bg-accent/10 border-2 border-accent  p-4">
+            <div className="bg-accent/10 border border-accent  p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="h-5 w-5 text-accent" />
                 <span className="font-bold text-accent">Demo Mode</span>
@@ -367,7 +367,7 @@ export default function Tasks() {
               variant="ghost"
               size="sm"
               onClick={() => navigate('/projects' + (isDemoMode ? '?demo=true' : ''))}
-              className="brutalist-btn"
+              className="professional-btn"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Projects
@@ -401,7 +401,7 @@ export default function Tasks() {
             
             <Button 
               onClick={() => setTaskDialogOpen(true)}
-              className="brutalist-btn"
+              className="professional-btn"
               disabled={isDemoMode}
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -415,7 +415,7 @@ export default function Tasks() {
           <div className="lg:col-span-2 space-y-6">
             {/* Stats Cards */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card className="brutalist-card">
+              <Card className="professional-card">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-gray-100  flex items-center justify-center">
@@ -429,7 +429,7 @@ export default function Tasks() {
                 </CardContent>
               </Card>
 
-              <Card className="brutalist-card">
+              <Card className="professional-card">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-blue-100  flex items-center justify-center">
@@ -443,7 +443,7 @@ export default function Tasks() {
                 </CardContent>
               </Card>
 
-              <Card className="brutalist-card">
+              <Card className="professional-card">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-yellow-100  flex items-center justify-center">
@@ -457,7 +457,7 @@ export default function Tasks() {
                 </CardContent>
               </Card>
 
-              <Card className="brutalist-card">
+              <Card className="professional-card">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-green-100  flex items-center justify-center">
@@ -474,7 +474,7 @@ export default function Tasks() {
 
             {/* Progress */}
             {tasks.length > 0 && (
-              <Card className="brutalist-card">
+              <Card className="professional-card">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium">Project Progress</span>
@@ -493,12 +493,12 @@ export default function Tasks() {
                   placeholder="Search tasks..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 brutalist-shadow-sm"
+                  className="pl-10 professional-shadow-sm"
                 />
               </div>
               
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-[140px] brutalist-shadow-sm">
+                <SelectTrigger className="w-[140px] professional-shadow-sm">
                   <Filter className="h-4 w-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>
@@ -512,7 +512,7 @@ export default function Tasks() {
               </Select>
 
               <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-                <SelectTrigger className="w-[140px] brutalist-shadow-sm">
+                <SelectTrigger className="w-[140px] professional-shadow-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -555,7 +555,7 @@ export default function Tasks() {
                 ))}
               </div>
             ) : (
-              <Card className="brutalist-card">
+              <Card className="professional-card">
                 <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                   <CheckSquare2 className="h-16 w-16 text-muted-foreground mb-4" />
                   <h3 className="text-xl font-bold mb-2">
@@ -578,14 +578,14 @@ export default function Tasks() {
                         setStatusFilter('all')
                         setPriorityFilter('all')
                       }}
-                      className="brutalist-btn"
+                      className="professional-btn"
                     >
                       Clear Filters
                     </Button>
                   ) : (
                     <Button 
                       onClick={() => setTaskDialogOpen(true)}
-                      className="brutalist-btn"
+                      className="professional-btn"
                       disabled={isDemoMode}
                     >
                       <Plus className="h-4 w-4 mr-2" />
@@ -601,7 +601,7 @@ export default function Tasks() {
           <div className="space-y-6">
             {/* Task Details */}
             {selectedTask ? (
-              <Card className="brutalist-card">
+              <Card className="professional-card">
                 <CardHeader>
                   <CardTitle className="text-lg">Task Details</CardTitle>
                 </CardHeader>
@@ -646,7 +646,7 @@ export default function Tasks() {
                 </CardContent>
               </Card>
             ) : (
-              <Card className="brutalist-card">
+              <Card className="professional-card">
                 <CardContent className="flex flex-col items-center justify-center py-8 text-center">
                   <CheckSquare2 className="h-12 w-12 text-muted-foreground mb-3" />
                   <p className="text-sm text-muted-foreground">

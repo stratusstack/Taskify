@@ -218,7 +218,7 @@ export function TaskCard({
 
   return (
     <Card
-      className={`brutalist-card transition-all duration-200 relative overflow-hidden cursor-pointer ${
+      className={`professional-card transition-all duration-200 relative overflow-hidden cursor-pointer ${
         isInProgress ? 'task-wave-active' : ''
       } ${isSelected ? 'ring-2 ring-primary' : ''}`}
       onClick={() => onSelect?.(task)}
@@ -354,7 +354,7 @@ export function TaskCard({
             <Button
               variant="outline"
               size="sm"
-              className="h-8 w-8 p-0 brutalist-btn"
+              className="h-8 w-8 p-0 professional-btn"
               onClick={(e) => {
                 e.stopPropagation()
                 setShowManualTimeDialog(true)
@@ -364,7 +364,7 @@ export function TaskCard({
               <Plus className="h-4 w-4" />
             </Button>
 
-            <div className={`flex items-center gap-2 text-sm px-3 py-2 border-2 transition-all duration-500 ${timeProps.colorClass} ${timeProps.bgClass} ${timeProps.borderClass}`}>
+            <div className={`flex items-center gap-2 text-sm px-3 py-2 border transition-all duration-500 ${timeProps.colorClass} ${timeProps.bgClass} ${timeProps.borderClass}`}>
               <timeProps.icon className="h-5 w-5" />
               <span className="font-bold text-lg transition-all duration-300 transform hover:scale-110">
                 {formatTime(displayTime)}

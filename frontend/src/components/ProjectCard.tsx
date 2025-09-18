@@ -35,7 +35,7 @@ export function ProjectCard({ project, onEdit, onDelete, onArchive }: ProjectCar
     : 0
 
   return (
-    <Card className="brutalist-card group">
+    <Card className="professional-card group">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
@@ -127,7 +127,7 @@ export function ProjectCard({ project, onEdit, onDelete, onArchive }: ProjectCar
           {/* Action Button */}
           <Button 
             asChild 
-            className="w-full brutalist-btn mt-4"
+            className="w-full professional-btn mt-4"
             variant={project.archived ? "outline" : "default"}
           >
             <Link to={`/projects/${project.id}/tasks${isDemoMode ? '?demo=true' : ''}`}>

@@ -43,7 +43,7 @@ export default function Layout({ children, title }: LayoutProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b-2 border-border bg-card brutalist-shadow sticky top-0 z-50">
+      <header className="border-b border-border bg-card professional-shadow sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-6">
             <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -57,7 +57,7 @@ export default function Layout({ children, title }: LayoutProps) {
                   asChild 
                   variant={isActive('/') ? "default" : "ghost"} 
                   size="sm"
-                  className="brutalist-btn"
+                  className="professional-btn"
                 >
                   <Link to="/">
                     <Home className="h-4 w-4 mr-2" />
@@ -68,7 +68,7 @@ export default function Layout({ children, title }: LayoutProps) {
                   asChild
                   variant={isActive('/projects') ? "default" : "ghost"}
                   size="sm"
-                  className="brutalist-btn"
+                  className="professional-btn"
                 >
                   <Link to="/projects">
                     <FolderOpen className="h-4 w-4 mr-2" />
@@ -79,11 +79,11 @@ export default function Layout({ children, title }: LayoutProps) {
                   asChild
                   variant={isActive('/daily-todo') ? "default" : "ghost"}
                   size="sm"
-                  className="brutalist-btn"
+                  className="professional-btn"
                 >
                   <Link to="/#daily-todo">
                     <ListTodo className="h-4 w-4 mr-2" />
-                    Daily Todo
+                    Hit List
                   </Link>
                 </Button>
               </nav>
@@ -96,7 +96,7 @@ export default function Layout({ children, title }: LayoutProps) {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="brutalist-btn">
+                  <Button variant="outline" className="professional-btn">
                     <User className="h-4 w-4 mr-2" />
                     {user.username}
                   </Button>
@@ -116,7 +116,7 @@ export default function Layout({ children, title }: LayoutProps) {
                   <DropdownMenuItem asChild className="md:hidden">
                     <Link to="/#daily-todo">
                       <ListTodo className="h-4 w-4 mr-2" />
-                      Daily Todo
+                      Hit List
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="md:hidden" />
@@ -130,7 +130,7 @@ export default function Layout({ children, title }: LayoutProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button asChild className="brutalist-btn">
+              <Button asChild className="professional-btn">
                 <Link to="/login">Sign In</Link>
               </Button>
             )}

@@ -51,7 +51,7 @@ export default function Login() {
           </p>
         </div>
 
-        <Card className="brutalist-card">
+        <Card className="professional-card">
           <CardHeader>
             <CardTitle className="text-2xl text-center">
               {isLogin ? 'Welcome Back' : 'Get Started'}
@@ -73,7 +73,7 @@ export default function Login() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
-                  className="brutalist-shadow-sm"
+                  className="professional-shadow-sm"
                 />
               </div>
 
@@ -86,7 +86,7 @@ export default function Login() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="brutalist-shadow-sm"
+                    className="professional-shadow-sm"
                   />
                 </div>
               )}
@@ -99,13 +99,13 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="brutalist-shadow-sm"
+                  className="professional-shadow-sm"
                 />
               </div>
 
               <Button 
                 type="submit" 
-                className="w-full brutalist-btn" 
+                className="w-full professional-btn" 
                 disabled={loading}
               >
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

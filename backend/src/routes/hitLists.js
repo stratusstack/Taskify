@@ -67,7 +67,7 @@ router.get('/', async (req, res, next) => {
     if (hitLists.length === 0) {
       const result = await db.query(
         'INSERT INTO hit_lists (name, user_id) VALUES (?, ?)',
-        ['My Daily Todo', req.user.userId]
+        ['My Hit List', req.user.userId]
       )
 
       const hitListId = result.lastID || result.rows[0]?.id || result.rows[0]?.insertId

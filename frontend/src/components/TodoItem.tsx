@@ -73,7 +73,7 @@ export default function TodoItem({ item, onUpdate, onDelete }: TodoItemProps) {
   }
 
   return (
-    <div className={`flex items-center gap-2 p-2 bg-card border border-border group hover:border-primary/50 transition-colors ${
+    <div className={`flex items-center gap-2 px-3 py-2 bg-card border border-border professional-shadow rounded-md hover:border-primary/50 transition-all ${
       item.is_completed ? 'opacity-60' : ''
     }`}>
       <Checkbox
@@ -91,40 +91,43 @@ export default function TodoItem({ item, onUpdate, onDelete }: TodoItemProps) {
             onKeyDown={handleKeyDown}
             onBlur={handleSaveEdit}
             autoFocus
-            className="brutalist-input text-sm"
+            className="professional-input text-sm"
             disabled={isUpdating}
             maxLength={500}
           />
         ) : (
           <span
-            className={`block text-sm cursor-pointer py-1 ${
+            className={`block text-sm cursor-pointer py-1 px-1 hover:bg-muted/30 rounded transition-colors ${
               item.is_completed ? 'line-through text-muted-foreground' : ''
             }`}
             onClick={handleStartEdit}
+            title="Click to edit"
           >
             {item.text}
           </span>
         )}
       </div>
 
-      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="flex items-center gap-1 flex-shrink-0">
         {isEditing ? (
           <>
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={handleSaveEdit}
               disabled={isUpdating}
-              className="brutalist-btn h-7 w-7 p-0"
+              className="professional-btn h-7 w-7 p-0 bg-green-500 hover:bg-green-600 text-white border-green-600"
+              title="Save changes"
             >
               <Check className="h-4 w-4" />
             </Button>
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={handleCancelEdit}
               disabled={isUpdating}
-              className="brutalist-btn h-7 w-7 p-0"
+              className="professional-btn h-7 w-7 p-0 bg-gray-500 hover:bg-gray-600 text-white border-gray-600"
+              title="Cancel editing"
             >
               <X className="h-4 w-4" />
             </Button>
@@ -132,20 +135,22 @@ export default function TodoItem({ item, onUpdate, onDelete }: TodoItemProps) {
         ) : (
           <>
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={handleStartEdit}
               disabled={isUpdating}
-              className="brutalist-btn h-7 w-7 p-0"
+              className="professional-btn h-7 w-7 p-0 bg-blue-500 hover:bg-blue-600 text-white border-blue-600"
+              title="Edit item"
             >
               <Edit2 className="h-4 w-4" />
             </Button>
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={handleDelete}
               disabled={isDeleting}
-              className="brutalist-btn h-8 w-8 p-0 text-destructive hover:text-destructive"
+              className="professional-btn h-7 w-7 p-0 bg-red-500 hover:bg-red-600 text-white border-red-600"
+              title="Delete item"
             >
               <Trash2 className="h-4 w-4" />
             </Button>

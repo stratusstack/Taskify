@@ -57,7 +57,7 @@ export function ProjectDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] brutalist-card">
+      <DialogContent className="sm:max-w-[425px] professional-card">
         <DialogHeader>
           <DialogTitle className="text-2xl">
             {isEditing ? 'Edit Project' : 'Create New Project'}
@@ -79,7 +79,7 @@ export function ProjectDialog({
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="brutalist-shadow-sm"
+              className="professional-shadow-sm"
             />
           </div>
           
@@ -90,7 +90,7 @@ export function ProjectDialog({
               placeholder="What's this project about?"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="brutalist-shadow-sm min-h-[80px]"
+              className="professional-shadow-sm min-h-[80px]"
             />
           </div>
           
@@ -99,14 +99,14 @@ export function ProjectDialog({
               type="button" 
               variant="outline" 
               onClick={() => onOpenChange(false)}
-              className="brutalist-btn"
+              className="professional-btn"
             >
               Cancel
             </Button>
             <Button 
               type="submit" 
               disabled={!name.trim() || loading}
-              className="brutalist-btn"
+              className="professional-btn"
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {isEditing ? 'Update Project' : 'Create Project'}

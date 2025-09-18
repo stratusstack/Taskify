@@ -46,7 +46,7 @@ export default function TodoList({ className = '', showTitle = true }: TodoListP
 
     setIsAddingItem(true)
     try {
-      const newItem = await apiService.addTodoItem(newItemText.trim())
+      await apiService.addTodoItem(newItemText.trim())
 
       // Refresh the hit list to get the updated data
       await fetchHitList()
@@ -108,8 +108,8 @@ export default function TodoList({ className = '', showTitle = true }: TodoListP
   if (isLoading) {
     return (
       <div className={`animate-pulse ${className}`}>
-        <Card className="brutalist-card">
-          <CardHeader className="pb-4">
+        <Card className="professional-card">
+          <CardHeader className="pb-3">
             <div className="h-6 bg-muted rounded w-1/2"></div>
           </CardHeader>
           <CardContent>
@@ -128,12 +128,12 @@ export default function TodoList({ className = '', showTitle = true }: TodoListP
   if (!hitList || !hitList.items || hitList.items.length === 0) {
     return (
       <div className={className}>
-        <Card className="brutalist-card">
+        <Card className="professional-card">
           {showTitle && (
-            <CardHeader className="pb-4">
+            <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2">
                 <ListTodo className="h-5 w-5 text-primary" />
-                Daily Todo
+                Hit List
               </CardTitle>
             </CardHeader>
           )}
@@ -145,13 +145,13 @@ export default function TodoList({ className = '', showTitle = true }: TodoListP
                 onChange={(e) => setNewItemText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 disabled={isAddingItem}
-                className="brutalist-input flex-1"
+                className="professional-input flex-1"
                 maxLength={500}
               />
               <Button
                 onClick={addTodoItem}
                 disabled={!newItemText.trim() || isAddingItem}
-                className="brutalist-btn"
+                className="professional-btn"
               >
                 <Plus className="h-4 w-4" />
               </Button>
@@ -164,12 +164,12 @@ export default function TodoList({ className = '', showTitle = true }: TodoListP
 
   return (
     <div className={className}>
-      <Card className="brutalist-card">
+      <Card className="professional-card">
         {showTitle && (
-          <CardHeader className="pb-4">
+          <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2">
               <ListTodo className="h-5 w-5 text-primary" />
-              Daily Todo
+              Hit List
               <span className="text-sm font-normal text-muted-foreground">
                 ({hitList.items.filter(item => !item.is_completed).length} remaining)
               </span>
@@ -177,7 +177,7 @@ export default function TodoList({ className = '', showTitle = true }: TodoListP
           </CardHeader>
         )}
 
-        <CardContent className="pt-4">
+        <CardContent className="pt-3">
           <div className="space-y-2">
             {/* Add new item */}
             <div className="flex gap-2">
@@ -187,13 +187,13 @@ export default function TodoList({ className = '', showTitle = true }: TodoListP
                 onChange={(e) => setNewItemText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 disabled={isAddingItem}
-                className="brutalist-input flex-1"
+                className="professional-input flex-1"
                 maxLength={500}
               />
               <Button
                 onClick={addTodoItem}
                 disabled={!newItemText.trim() || isAddingItem}
-                className="brutalist-btn"
+                className="professional-btn"
               >
                 <Plus className="h-4 w-4" />
               </Button>

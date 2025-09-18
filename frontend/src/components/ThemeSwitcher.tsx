@@ -14,7 +14,7 @@ export function ThemeSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="brutalist-btn">
+        <Button variant="outline" size="icon" className="professional-btn">
           <Palette className="h-4 w-4" />
           <span className="sr-only">Switch theme</span>
         </Button>

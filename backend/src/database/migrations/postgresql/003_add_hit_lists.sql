@@ -1,7 +1,7 @@
 -- Hit Lists table for personal todo lists
 CREATE TABLE IF NOT EXISTS hit_lists (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL DEFAULT 'My Daily Todo',
+  name VARCHAR(255) NOT NULL DEFAULT 'My Hit List',
   user_id INTEGER NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

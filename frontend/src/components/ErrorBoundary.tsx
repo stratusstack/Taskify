@@ -39,7 +39,7 @@ export class ErrorBoundary extends Component<Props, State> {
     })
 
     // Log error to console in development
-    if (import.meta.env.DEV) {
+    if ((import.meta as any).env.DEV) {
       console.error('Error Boundary caught an error:', error, errorInfo)
     }
 
@@ -65,7 +65,7 @@ export class ErrorBoundary extends Component<Props, State> {
       // Default error UI
       return (
         <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-          <Card className="brutalist-card max-w-2xl w-full">
+          <Card className="professional-card max-w-2xl w-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-3 text-destructive">
                 <AlertTriangle className="h-6 w-6" />
@@ -77,7 +77,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 An unexpected error occurred. This has been logged and our team will investigate.
               </p>
               
-              {import.meta.env.DEV && this.state.error && (
+              {(import.meta as any).env.DEV && this.state.error && (
                 <details className="bg-muted/50 p-4 border border-border">
                   <summary className="cursor-pointer font-medium text-sm mb-2">
                     Error Details (Development Only)
@@ -104,7 +104,7 @@ export class ErrorBoundary extends Component<Props, State> {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button
                   onClick={this.handleReset}
-                  className="brutalist-btn"
+                  className="professional-btn"
                 >
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Try Again
@@ -113,7 +113,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 <Button
                   variant="outline"
                   onClick={() => window.location.href = '/'}
-                  className="brutalist-btn"
+                  className="professional-btn"
                 >
                   Go Home
                 </Button>
@@ -121,7 +121,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 <Button
                   variant="ghost"
                   onClick={() => window.location.reload()}
-                  className="brutalist-btn"
+                  className="professional-btn"
                 >
                   Refresh Page
                 </Button>

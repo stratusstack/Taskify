@@ -117,7 +117,7 @@ export function TaskDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px] brutalist-card">
+      <DialogContent className="sm:max-w-[500px] professional-card">
         <DialogHeader>
           <DialogTitle className="text-2xl">
             {isEditing ? 'Edit Task' : 'Create New Task'}
@@ -139,7 +139,7 @@ export function TaskDialog({
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="brutalist-shadow-sm"
+              className="professional-shadow-sm"
             />
           </div>
           
@@ -150,7 +150,7 @@ export function TaskDialog({
               placeholder="What needs to be done?"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="brutalist-shadow-sm min-h-[80px]"
+              className="professional-shadow-sm min-h-[80px]"
             />
           </div>
 
@@ -163,7 +163,7 @@ export function TaskDialog({
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 required
-                className="brutalist-shadow-sm"
+                className="professional-shadow-sm"
               />
             </div>
             
@@ -174,7 +174,7 @@ export function TaskDialog({
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="brutalist-shadow-sm"
+                className="professional-shadow-sm"
               />
             </div>
           </div>
@@ -183,7 +183,7 @@ export function TaskDialog({
             <div className="space-y-2">
               <Label>Status</Label>
               <Select value={status} onValueChange={(value: TaskStatus) => setStatus(value)}>
-                <SelectTrigger className="brutalist-shadow-sm">
+                <SelectTrigger className="professional-shadow-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -199,7 +199,7 @@ export function TaskDialog({
             <div className="space-y-2">
               <Label>Priority</Label>
               <Select value={priority} onValueChange={(value: TaskPriority) => setPriority(value)}>
-                <SelectTrigger className="brutalist-shadow-sm">
+                <SelectTrigger className="professional-shadow-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -218,14 +218,14 @@ export function TaskDialog({
               type="button" 
               variant="outline" 
               onClick={() => onOpenChange(false)}
-              className="brutalist-btn"
+              className="professional-btn"
             >
               Cancel
             </Button>
             <Button 
               type="submit" 
               disabled={!name.trim() || loading}
-              className="brutalist-btn"
+              className="professional-btn"
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {isEditing ? 'Update Task' : 'Create Task'}

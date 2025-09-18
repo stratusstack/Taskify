@@ -37,7 +37,7 @@ export function TaskNotes({ notes, onAddNote, loading = false }: TaskNotesProps)
   }
 
   return (
-    <Card className="brutalist-card">
+    <Card className="professional-card">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <MessageSquare className="h-5 w-5" />
@@ -51,13 +51,13 @@ export function TaskNotes({ notes, onAddNote, loading = false }: TaskNotesProps)
             placeholder="Add a note..."
             value={newNote}
             onChange={(e) => setNewNote(e.target.value)}
-            className="brutalist-shadow-sm"
+            className="professional-shadow-sm"
             rows={3}
           />
           <Button
             onClick={handleAddNote}
             disabled={!newNote.trim() || isAdding || loading}
-            className="brutalist-btn"
+            className="professional-btn"
             size="sm"
           >
             {isAdding ? (

@@ -94,7 +94,7 @@ export function ManualTimeDialog({
                   type="button"
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10 brutalist-btn"
+                  className="h-10 w-10 professional-btn"
                   onClick={() => adjustMinutes(-5)}
                   disabled={minutes <= 5}
                 >
@@ -116,7 +116,7 @@ export function ManualTimeDialog({
                   type="button"
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10 brutalist-btn"
+                  className="h-10 w-10 professional-btn"
                   onClick={() => adjustMinutes(5)}
                   disabled={minutes >= 1440}
                 >
@@ -140,7 +140,7 @@ export function ManualTimeDialog({
                     type="button"
                     variant={minutes === quickMinutes ? "default" : "outline"}
                     size="sm"
-                    className="brutalist-btn"
+                    className="professional-btn"
                     onClick={() => setMinutes(quickMinutes)}
                   >
                     {quickMinutes < 60 ? `${quickMinutes}m` : `${Math.floor(quickMinutes / 60)}h`}
@@ -169,14 +169,14 @@ export function ManualTimeDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
               disabled={loading}
-              className="brutalist-btn"
+              className="professional-btn"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={loading || minutes <= 0}
-              className="brutalist-btn"
+              className="professional-btn"
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Add {formatTimeDisplay(minutes)}
