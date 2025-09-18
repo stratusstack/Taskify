@@ -71,7 +71,7 @@ router.post('/task/:taskId', async (req, res, next) => {
       [taskId, text.trim(), sortOrder]
     )
 
-    const itemId = result.lastID || result.rows[0]?.id
+    const itemId = result.lastID || result.rows[0]?.id || result.rows[0]?.insertId
 
     // Fetch created item
     const items = await db.query(

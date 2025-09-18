@@ -1,5 +1,6 @@
 import express from 'express'
 import dbFactory from '../database/connectionFactory.js'
+import { dbConfig } from '../config/database.js'
 import { authenticateToken } from './users.js'
 import { taskValidation, paramValidation } from '../middleware/validation.js'
 
@@ -148,15 +149,24 @@ router.post('/', taskValidation.create, async (req, res, next) => {
       return res.status(404).json({ error: 'Project not found' })
     }
 
+    // Format dates for MySQL if needed
+    const formatDateForDB = (dateStr) => {
+      if (!dateStr) return null
+      if (dbConfig.type.toLowerCase() === 'mysql') {
+        return new Date(dateStr).toISOString().slice(0, 19).replace('T', ' ')
+      }
+      return dateStr
+    }
+
     // Create task
     const result = await db.query(
-      `INSERT INTO tasks (name, description, start_date, end_date, status, priority, project_id, user_id) 
+      `INSERT INTO tasks (name, description, start_date, end_date, status, priority, project_id, user_id)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         name.trim(),
         description || '',
-        start_date,
-        end_date || null,
+        formatDateForDB(start_date),
+        formatDateForDB(end_date),
         status || 'To Do',
         priority || 'Medium',
         project_id,
@@ -164,7 +174,7 @@ router.post('/', taskValidation.create, async (req, res, next) => {
       ]
     )
 
-    const taskId = result.lastID || result.rows[0]?.id
+    const taskId = result.lastID || result.rows[0]?.insertId || result.rows[0]?.id
     
     // Fetch created task
     const tasks = await db.query(
@@ -203,12 +213,21 @@ router.put('/:id', paramValidation.id, taskValidation.update, async (req, res, n
 
     const oldStatus = existingTasks[0].status
 
+    // Format dates for MySQL if needed
+    const formatDateForDB = (dateStr) => {
+      if (!dateStr) return null
+      if (dbConfig.type.toLowerCase() === 'mysql') {
+        return new Date(dateStr).toISOString().slice(0, 19).replace('T', ' ')
+      }
+      return dateStr
+    }
+
     // Update task
     await db.query(
-      `UPDATE tasks 
-       SET name = ?, description = ?, start_date = ?, end_date = ?, status = ?, priority = ?, updated_at = CURRENT_TIMESTAMP 
+      `UPDATE tasks
+       SET name = ?, description = ?, start_date = ?, end_date = ?, status = ?, priority = ?, updated_at = CURRENT_TIMESTAMP
        WHERE id = ?`,
-      [name.trim(), description || '', start_date, end_date, status || 'To Do', priority || 'Medium', taskId]
+      [name.trim(), description || '', formatDateForDB(start_date), formatDateForDB(end_date), status || 'To Do', priority || 'Medium', taskId]
     )
 
     // Handle automatic timer management for status changes
@@ -222,7 +241,7 @@ router.put('/:id', paramValidation.id, taskValidation.update, async (req, res, n
       if (activeEntries.length === 0) {
         await db.query(
           'INSERT INTO time_entries (task_id, start_time) VALUES (?, ?)',
-          [taskId, new Date().toISOString()]
+          [taskId, formatDateForDB(new Date().toISOString())]
         )
       }
     }
@@ -242,7 +261,7 @@ router.put('/:id', paramValidation.id, taskValidation.update, async (req, res, n
 
         await db.query(
           'UPDATE time_entries SET end_time = ?, duration_minutes = ? WHERE id = ?',
-          [now, durationMinutes, entry.id]
+          [formatDateForDB(now), durationMinutes, entry.id]
         )
       }
     }
@@ -315,7 +334,7 @@ router.post('/:id/notes', paramValidation.id, taskValidation.addNote, async (req
       [req.params.id, content.trim()]
     )
 
-    const noteId = result.lastID || result.rows[0]?.id
+    const noteId = result.lastID || result.rows[0]?.insertId || result.rows[0]?.id
 
     // Fetch created note
     const notes = await db.query(

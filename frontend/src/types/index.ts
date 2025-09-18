@@ -75,3 +75,22 @@ export interface ApiError {
   error: string
   details?: string[]
 }
+
+export interface HitList {
+  id: number
+  name: string
+  user_id: number
+  created_at: string
+  updated_at: string
+  items?: TodoItem[]
+}
+
+export interface TodoItem {
+  id: number
+  hit_list_id: number
+  text: string
+  is_completed: boolean
+  sort_order: number
+  created_at: string
+  updated_at: string
+}

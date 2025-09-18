@@ -3,11 +3,12 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 import { useAuth } from '@/contexts/AuthContext'
-import { 
-  CheckSquare2, 
-  Clock, 
-  Zap, 
-  Target, 
+import TodoList from '@/components/TodoList'
+import {
+  CheckSquare2,
+  Clock,
+  Zap,
+  Target,
   Users,
   BarChart3,
   ArrowRight,
@@ -115,6 +116,15 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Daily Todo Section - Only for logged-in users */}
+      {user && (
+        <section id="daily-todo" className="py-12 px-4">
+          <div className="container mx-auto max-w-2xl">
+            <TodoList />
+          </div>
+        </section>
+      )}
 
       {/* Features Section */}
       <section className="py-20 px-4 bg-card/30">

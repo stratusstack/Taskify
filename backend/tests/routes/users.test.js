@@ -25,7 +25,7 @@ describe('Users API', () => {
       const userData = {
         username: 'testuser',
         email: 'test@example.com',
-        password: 'password123'
+        password: 'Password123'
       }
 
       const response = await request(app)
@@ -57,7 +57,7 @@ describe('Users API', () => {
       const userData = {
         username: 'testuser',
         email: 'test1@example.com',
-        password: 'password123'
+        password: 'Password123'
       }
 
       // Create first user
@@ -70,7 +70,7 @@ describe('Users API', () => {
       const duplicateUser = {
         username: 'testuser',
         email: 'test2@example.com',
-        password: 'password123'
+        password: 'Password123'
       }
 
       const response = await request(app)
@@ -85,7 +85,7 @@ describe('Users API', () => {
       const userData = {
         username: 'testuser1',
         email: 'test@example.com',
-        password: 'password123'
+        password: 'Password123'
       }
 
       // Create first user
@@ -98,7 +98,7 @@ describe('Users API', () => {
       const duplicateUser = {
         username: 'testuser2',
         email: 'test@example.com',
-        password: 'password123'
+        password: 'Password123'
       }
 
       const response = await request(app)
@@ -118,7 +118,7 @@ describe('Users API', () => {
         .send({
           username: 'testuser',
           email: 'test@example.com',
-          password: 'password123'
+          password: 'Password123'
         })
     })
 
@@ -127,7 +127,7 @@ describe('Users API', () => {
         .post('/api/users/login')
         .send({
           username: 'testuser',
-          password: 'password123'
+          password: 'Password123'
         })
         .expect(200)
 
@@ -142,7 +142,7 @@ describe('Users API', () => {
         .post('/api/users/login')
         .send({
           username: 'test@example.com',
-          password: 'password123'
+          password: 'Password123'
         })
         .expect(200)
 
@@ -156,7 +156,7 @@ describe('Users API', () => {
         .post('/api/users/login')
         .send({
           username: 'nonexistent',
-          password: 'password123'
+          password: 'Password123'
         })
         .expect(401)
 
@@ -198,7 +198,7 @@ describe('Users API', () => {
         .send({
           username: 'testuser',
           email: 'test@example.com',
-          password: 'password123'
+          password: 'Password123'
         })
 
       authToken = response.body.token

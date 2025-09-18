@@ -1,6 +1,7 @@
 import { dbConfig } from '../config/database.js'
 import SQLiteConnection from './connections/sqlite.js'
 import PostgreSQLConnection from './connections/postgresql.js'
+import MySQLConnection from './connections/mysql.js'
 
 class DatabaseFactory {
   constructor() {
@@ -19,6 +20,9 @@ class DatabaseFactory {
       case 'postgresql':
       case 'postgres':
         this.connection = new PostgreSQLConnection()
+        break
+      case 'mysql':
+        this.connection = new MySQLConnection()
         break
       default:
         throw new Error(`Unsupported database type: ${dbConfig.type}`)

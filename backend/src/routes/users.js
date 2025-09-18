@@ -40,7 +40,13 @@ router.post('/register', userValidation.register, async (req, res, next) => {
     )
 
     // Generate JWT token
-    const userId = result.lastID || result.rows[0]?.id
+    const userId = result.lastID || result.rows[0]?.insertId || result.rows[0]?.id
+
+    // Automatically create a hit list for the new user
+    await db.query(
+      'INSERT INTO hit_lists (name, user_id) VALUES (?, ?)',
+      ['My Daily Todo', userId]
+    )
     const token = jwt.sign(
       { userId, username, email },
       dbConfig.jwt.secret,

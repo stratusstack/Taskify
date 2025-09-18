@@ -13,6 +13,7 @@ import projectRoutes from './routes/projects.js'
 import taskRoutes from './routes/tasks.js'
 import timeEntryRoutes from './routes/timeEntries.js'
 import checklistItemRoutes from './routes/checklistItems.js'
+import hitListRoutes from './routes/hitLists.js'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -57,6 +58,7 @@ app.use('/api/projects', projectRoutes)
 app.use('/api/tasks', taskRoutes)
 app.use('/api/time-entries', timeEntryRoutes)
 app.use('/api/checklist-items', checklistItemRoutes)
+app.use('/api/hit-lists', hitListRoutes)
 logStartup('API routes registered', 'info')
 
 // Error handling middleware

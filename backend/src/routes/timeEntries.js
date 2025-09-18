@@ -1,8 +1,18 @@
 import express from 'express'
 import dbFactory from '../database/connectionFactory.js'
+import { dbConfig } from '../config/database.js'
 import { authenticateToken } from './users.js'
 
 const router = express.Router()
+
+// Helper function to format dates for MySQL
+function formatDateForDB(dateString) {
+  if (!dateString) return null
+  if (dbConfig.type.toLowerCase() === 'mysql') {
+    return new Date(dateString).toISOString().slice(0, 19).replace('T', ' ')
+  }
+  return dateString
+}
 
 // Apply authentication to all time entry routes
 router.use(authenticateToken)
@@ -76,10 +86,10 @@ router.post('/start', async (req, res, next) => {
     // Create new time entry
     const result = await db.query(
       'INSERT INTO time_entries (task_id, start_time, description) VALUES (?, ?, ?)',
-      [task_id, new Date().toISOString(), description || '']
+      [task_id, formatDateForDB(new Date().toISOString()), description || '']
     )
 
-    const entryId = result.lastID || result.rows[0]?.id
+    const entryId = result.lastID || result.rows[0]?.id || result.rows[0]?.insertId
 
     const entries = await db.query(
       'SELECT * FROM time_entries WHERE id = ?',
@@ -135,7 +145,7 @@ router.post('/stop', async (req, res, next) => {
     // Update time entry with end time and duration
     await db.query(
       'UPDATE time_entries SET end_time = ?, duration_minutes = ? WHERE id = ?',
-      [now, durationMinutes, entry.id]
+      [formatDateForDB(now), durationMinutes, entry.id]
     )
 
     // Fetch updated entry
@@ -303,14 +313,14 @@ router.post('/manual', async (req, res, next) => {
       'INSERT INTO time_entries (task_id, start_time, end_time, duration_minutes, description) VALUES (?, ?, ?, ?, ?)',
       [
         task_id,
-        startTime.toISOString(),
-        endTime.toISOString(),
+        formatDateForDB(startTime.toISOString()),
+        formatDateForDB(endTime.toISOString()),
         duration_minutes,
         `Manual entry: ${duration_minutes} minutes`
       ]
     )
 
-    const entryId = result.lastID || result.rows[0]?.id
+    const entryId = result.lastID || result.rows[0]?.id || result.rows[0]?.insertId
 
     const entries = await db.query(
       'SELECT * FROM time_entries WHERE id = ?',

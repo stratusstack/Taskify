@@ -47,8 +47,14 @@ export async function runMigrations() {
       // Split SQL statements (handle multiple statements in one file)
       const statements = sql
         .split(';')
-        .map(stmt => stmt.trim())
-        .filter(stmt => stmt.length > 0)
+        .map(stmt => {
+          // Remove comment lines and trim
+          const lines = stmt.split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 0 && !line.startsWith('--'))
+          return lines.join(' ')
+        })
+        .filter(stmt => stmt.trim().length > 0)
       
       try {
         await db.beginTransaction()
@@ -58,9 +64,13 @@ export async function runMigrations() {
         }
         
         // Record migration as executed
+        const executedAt = dbConfig.type.toLowerCase() === 'mysql'
+          ? new Date().toISOString().slice(0, 19).replace('T', ' ')
+          : new Date().toISOString()
+
         await db.query(
           'INSERT INTO migrations (filename, executed_at) VALUES (?, ?)',
-          [file, new Date().toISOString()]
+          [file, executedAt]
         )
         
         await db.commit()
@@ -82,18 +92,34 @@ export async function runMigrations() {
 }
 
 async function createMigrationsTable(db) {
-  const sql = dbConfig.type === 'sqlite' 
-    ? `CREATE TABLE IF NOT EXISTS migrations (
-         id INTEGER PRIMARY KEY AUTOINCREMENT,
-         filename TEXT NOT NULL UNIQUE,
-         executed_at TEXT NOT NULL
-       )`
-    : `CREATE TABLE IF NOT EXISTS migrations (
-         id SERIAL PRIMARY KEY,
-         filename VARCHAR(255) NOT NULL UNIQUE,
-         executed_at TIMESTAMP NOT NULL
-       )`
-  
+  let sql
+
+  switch (dbConfig.type.toLowerCase()) {
+    case 'sqlite':
+      sql = `CREATE TABLE IF NOT EXISTS migrations (
+               id INTEGER PRIMARY KEY AUTOINCREMENT,
+               filename TEXT NOT NULL UNIQUE,
+               executed_at TEXT NOT NULL
+             )`
+      break
+    case 'mysql':
+      sql = `CREATE TABLE IF NOT EXISTS migrations (
+               id INT AUTO_INCREMENT PRIMARY KEY,
+               filename VARCHAR(255) NOT NULL UNIQUE,
+               executed_at TIMESTAMP NOT NULL
+             )`
+      break
+    case 'postgresql':
+    case 'postgres':
+    default:
+      sql = `CREATE TABLE IF NOT EXISTS migrations (
+               id SERIAL PRIMARY KEY,
+               filename VARCHAR(255) NOT NULL UNIQUE,
+               executed_at TIMESTAMP NOT NULL
+             )`
+      break
+  }
+
   await db.query(sql)
 }
 

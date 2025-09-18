@@ -11,6 +11,13 @@ export const dbConfig = {
     user: process.env.PG_USER || 'postgres',
     password: process.env.PG_PASSWORD
   },
+  mysql: {
+    host: process.env.MYSQL_HOST || 'localhost',
+    port: process.env.MYSQL_PORT || 3306,
+    database: process.env.MYSQL_DATABASE || 'taskify',
+    user: process.env.MYSQL_USER || 'root',
+    password: process.env.MYSQL_PASSWORD
+  },
   sqlite: {
     filename: (() => {
       if (process.env.SQLITE_DB) {

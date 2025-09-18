@@ -30,7 +30,7 @@ describe('Tasks API', () => {
       .send({
         username: 'testuser',
         email: 'test@example.com',
-        password: 'password123'
+        password: 'Password123'
       })
 
     authToken = userResponse.body.token

@@ -2,12 +2,13 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 import { useAuth } from '@/contexts/AuthContext'
-import { 
-  Sparkles, 
-  LogOut, 
-  User, 
-  FolderOpen, 
-  Home
+import {
+  Sparkles,
+  LogOut,
+  User,
+  FolderOpen,
+  Home,
+  ListTodo
 } from 'lucide-react'
 import {
   DropdownMenu,
@@ -63,15 +64,26 @@ export default function Layout({ children, title }: LayoutProps) {
                     Home
                   </Link>
                 </Button>
-                <Button 
-                  asChild 
-                  variant={isActive('/projects') ? "default" : "ghost"} 
+                <Button
+                  asChild
+                  variant={isActive('/projects') ? "default" : "ghost"}
                   size="sm"
                   className="brutalist-btn"
                 >
                   <Link to="/projects">
                     <FolderOpen className="h-4 w-4 mr-2" />
                     Projects
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant={isActive('/daily-todo') ? "default" : "ghost"}
+                  size="sm"
+                  className="brutalist-btn"
+                >
+                  <Link to="/#daily-todo">
+                    <ListTodo className="h-4 w-4 mr-2" />
+                    Daily Todo
                   </Link>
                 </Button>
               </nav>
@@ -99,6 +111,12 @@ export default function Layout({ children, title }: LayoutProps) {
                     <Link to="/projects">
                       <FolderOpen className="h-4 w-4 mr-2" />
                       Projects
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="md:hidden">
+                    <Link to="/#daily-todo">
+                      <ListTodo className="h-4 w-4 mr-2" />
+                      Daily Todo
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="md:hidden" />

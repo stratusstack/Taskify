@@ -71,7 +71,7 @@ router.post('/', projectValidation.create, async (req, res, next) => {
       [name.trim(), description || '', req.user.userId]
     )
 
-    const projectId = result.lastID || result.rows[0]?.id
+    const projectId = result.lastID || result.rows[0]?.insertId || result.rows[0]?.id
     
     // Fetch the created project
     const projects = await db.query(

@@ -1,4 +1,4 @@
-import { AuthResponse, ChecklistItem, Project, Task, TaskNote, TimeEntry, User } from '@/types'
+import { AuthResponse, ChecklistItem, HitList, Project, Task, TaskNote, TimeEntry, TodoItem, User } from '@/types'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api'
 
@@ -247,6 +247,40 @@ class ApiService {
       body: JSON.stringify({ itemIds })
     })
     return this.handleResponse<ChecklistItem[]>(response)
+  }
+
+  // Hit List endpoints
+  async getHitList(): Promise<HitList | null> {
+    const response = await fetch(`${API_BASE_URL}/hit-lists`, {
+      headers: this.getAuthHeaders()
+    })
+    return this.handleResponse<HitList | null>(response)
+  }
+
+  async addTodoItem(text: string): Promise<TodoItem> {
+    const response = await fetch(`${API_BASE_URL}/hit-lists/items`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ text })
+    })
+    return this.handleResponse<TodoItem>(response)
+  }
+
+  async updateTodoItem(itemId: number, updates: Partial<TodoItem>): Promise<TodoItem> {
+    const response = await fetch(`${API_BASE_URL}/hit-lists/items/${itemId}`, {
+      method: 'PUT',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify(updates)
+    })
+    return this.handleResponse<TodoItem>(response)
+  }
+
+  async deleteTodoItem(itemId: number): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/hit-lists/items/${itemId}`, {
+      method: 'DELETE',
+      headers: this.getAuthHeaders()
+    })
+    await this.handleResponse(response)
   }
 }
 
