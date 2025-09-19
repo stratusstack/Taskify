@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-export type Theme = 'neon' | 'readable' | 'monokai' | 'professional'
+export type Theme = 'neon' | 'readable' | 'monokai'
 
 interface ThemeContextType {
   theme: Theme
@@ -50,23 +50,14 @@ const themes = [
       accent: '#F92672'
     }
   },
-  {
-    name: 'Professional',
-    value: 'professional' as Theme,
-    description: 'Clean enterprise theme inspired by modern project management tools',
-    colors: {
-      primary: '#0052CC',
-      secondary: '#0065FF',
-      accent: '#36B37E'
-    }
-  }
 ]
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     const stored = localStorage.getItem('taskify-theme')
-    // Handle backward compatibility for 'natural' -> 'monokai'
+    // Handle backward compatibility for 'natural' -> 'monokai' and remove 'professional'
     if (stored === 'natural') return 'monokai'
+    if (stored === 'professional') return 'readable'
     return (stored as Theme) || 'neon'
   })
 
@@ -74,7 +65,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const root = document.documentElement
     
     // Remove all theme classes
-    root.classList.remove('theme-neon', 'theme-readable', 'theme-natural', 'theme-professional')
+    root.classList.remove('theme-neon', 'theme-readable', 'theme-natural')
 
     // Add current theme class (map monokai to natural for CSS compatibility)
     const cssTheme = theme === 'monokai' ? 'natural' : theme
